@@ -1,1 +1,3 @@
-<%= link_to @short_url, @short_url %> redirects to <%= link_to @item.original, @item.original %>
+<%= render :partial => "form" %>
+
+<p><%= link_to @short_url, @short_url %> redirects to <%= link_to @item.original, @item.original %></p>
