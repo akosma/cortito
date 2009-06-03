@@ -27,8 +27,8 @@ class ItemsController < ApplicationController
           @short_url = ["http://", request.server_name, "/", @item.shortened].join
           render :template => "items/show"
         end
-        format.xml { render :text => ["http://url.akosma.com/", @item.shortened].join }
-        format.js { render :text => ["http://url.akosma.com/", @item.shortened].join }
+        format.xml { render :text => ["http://", request.server_name, "/", @item.shortened].join }
+        format.js { render :text => ["http://", request.server_name, "/", @item.shortened].join }
       end
 
     end
