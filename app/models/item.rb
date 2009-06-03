@@ -11,7 +11,6 @@ class Item < ActiveRecord::Base
       exists = Item.exists?(:shortened => shortened)
     end
     self.shortened = shortened
-    self.save
   end
   
 end

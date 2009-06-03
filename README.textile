@@ -11,5 +11,5 @@ h2. Installation
 As any other Rails application:
 
 # Modify config/database.yml to your own settings;
-# Run rake db:schema:import to generate the tables;
+# Run rake db:migrate to generate the tables;
 # Start the application as you normally would.

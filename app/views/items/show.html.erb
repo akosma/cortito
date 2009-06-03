@@ -1,1 +1,1 @@
-http://url.akosma.com/<%=h @item.shortened %> redirects to <%=h @item.original %>
+<%= link_to @short_url, @short_url %> redirects to <%= link_to @item.original, @item.original %>
