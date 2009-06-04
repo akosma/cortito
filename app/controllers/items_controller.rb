@@ -20,8 +20,20 @@ class ItemsController < ApplicationController
       url = params[:url]
       
       if !params.has_key?(:url) || url.length == 0
-        redirect_to :shorten
+        render :template => "items/invalid"
       else
+        shortened_url_prefix = ["http://tinyurl.com", 
+          "http://u.nu", "http://snipurl.com/", "http://readthisurl.com/",
+          "http://doiop.com/", "http://urltea.com/", "http://dwarfurl.com/", 
+          "http://memurl.com/", "http://shorl.com/", "http://traceurl.com/"]
+        
+        shortened_url_prefix.each do |prefix|
+          if url.starts_with?(prefix)
+            render :template => "items/invalid"
+            return
+          end
+        end
+        
         @item = Item.find_by_original(url)
         if not @item
           @item = Item.new
