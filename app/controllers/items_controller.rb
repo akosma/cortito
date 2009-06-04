@@ -51,6 +51,7 @@ class ItemsController < ApplicationController
           respond_to do |format|
             format.html do
               @short_url = ["http://", host, "/", @item.shortened].join
+              @twitter_url = ["http://twitter.com/home?status=", @short_url].join
               render :template => "items/show"
             end
             format.xml { render :text => ["http://", host, "/", @item.shortened].join }
