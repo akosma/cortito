@@ -25,6 +25,11 @@ class ItemsControllerTest < ActionController::TestCase
     assert_template :invalid
   end
   
+  test "should ignore very short urls" do
+    post :shorten, :url => "http://a"
+    assert_template :short
+  end
+  
   test "should warn about invalid shortened urls" do
     post :shorten, :url => "http://tinyurl.com/123456"
     assert_template :invalid

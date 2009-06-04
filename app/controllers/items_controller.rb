@@ -33,25 +33,29 @@ class ItemsController < ApplicationController
             return
           end
         end
-        
-        @item = Item.find_by_original(url)
-        if not @item
-          @item = Item.new
-          @item.original = params[:url]
-          @item.save
-        end
-      
+
         host = request.host_with_port
-      
-        respond_to do |format|
-          format.html do
-            @short_url = ["http://", host, "/", @item.shortened].join
-            render :template => "items/show"
+        
+        if url.length < (host.length + 6)
+          render :template => "items/short"
+        else
+        
+          @item = Item.find_by_original(url)
+          if not @item
+            @item = Item.new
+            @item.original = params[:url]
+            @item.save
           end
-          format.xml { render :text => ["http://", host, "/", @item.shortened].join }
-          format.js { render :text => ["http://", host, "/", @item.shortened].join }
-        end
       
+          respond_to do |format|
+            format.html do
+              @short_url = ["http://", host, "/", @item.shortened].join
+              render :template => "items/show"
+            end
+            format.xml { render :text => ["http://", host, "/", @item.shortened].join }
+            format.js { render :text => ["http://", host, "/", @item.shortened].join }
+          end
+        end
       end
 
     end
