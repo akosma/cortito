@@ -10,7 +10,7 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "should shorten new url" do
     assert_difference('Item.count') do
-      post :shorten, :url => "http://test.com"
+      post :shorten, :url => "http://www.google.com/search?q=ruby+on+rails"
     end
     assert_template :show
   end

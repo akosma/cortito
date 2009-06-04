@@ -4,6 +4,8 @@
 
 class Item < ActiveRecord::Base
   
+  SHORT_URL_LENGTH = 6
+  
   def save
     # Code adapted from
     # http://travisonrails.com/2007/06/07/Generate-random-text-with-Ruby
@@ -11,7 +13,7 @@ class Item < ActiveRecord::Base
     while exists do
       chars = 'abcdefghijklmnopqrstuvwxyz1234567890_'
       shortened = ''  
-      6.times { |i| shortened << chars[rand(chars.length)] }
+      SHORT_URL_LENGTH.times { |i| shortened << chars[rand(chars.length)] }
       exists = Item.exists?(:shortened => shortened)
     end
     self.shortened = shortened

@@ -36,7 +36,7 @@ class ItemsController < ApplicationController
 
         host = request.host_with_port
         
-        if url.length < (host.length + 6)
+        if url.length < ("http://".length + host.length + 1 + Item::SHORT_URL_LENGTH)
           render :template => "items/short"
         else
         
