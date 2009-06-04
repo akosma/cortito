@@ -1,3 +1,6 @@
-# Methods added to this helper will be available to all templates in the application.
+# Copyright (c) 2009, Adrian Kosmaczewski / akosma software
+# All rights reserved.
+# BSD License. See LICENSE.txt for details.
+
 module ApplicationHelper
 end

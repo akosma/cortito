@@ -1,3 +1,7 @@
+# Copyright (c) 2009, Adrian Kosmaczewski / akosma software
+# All rights reserved.
+# BSD License. See LICENSE.txt for details.
+
 class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items do |t|

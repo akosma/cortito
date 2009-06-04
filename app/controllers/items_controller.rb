@@ -1,7 +1,8 @@
-class ItemsController < ApplicationController
+# Copyright (c) 2009, Adrian Kosmaczewski / akosma software
+# All rights reserved.
+# BSD License. See LICENSE.txt for details.
 
-  # This is for the form of the "new" action, when it submits to "shorten"
-  skip_before_filter :verify_authenticity_token
+class ItemsController < ApplicationController
 
   def redirect
     @item = Item.find_by_shortened(params[:shortened])
