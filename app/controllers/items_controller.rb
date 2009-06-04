@@ -14,6 +14,8 @@ class ItemsController < ApplicationController
   end
 
   def shorten
+    @host = request.host_with_port
+
     if !params.has_key?(:url)
       render :template => "items/new"
     else
@@ -35,9 +37,7 @@ class ItemsController < ApplicationController
           end
         end
 
-        host = request.host_with_port
-        
-        if url.length < ("http://".length + host.length + 1 + Item::SHORT_URL_LENGTH)
+        if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
           render :template => "items/short"
         else
         
@@ -50,12 +50,12 @@ class ItemsController < ApplicationController
       
           respond_to do |format|
             format.html do
-              @short_url = ["http://", host, "/", @item.shortened].join
+              @short_url = ["http://", @host, "/", @item.shortened].join
               @twitter_url = ["http://twitter.com/home?status=", @short_url].join
               render :template => "items/show"
             end
-            format.xml { render :text => ["http://", host, "/", @item.shortened].join }
-            format.js { render :text => ["http://", host, "/", @item.shortened].join }
+            format.xml { render :text => ["http://", @host, "/", @item.shortened].join }
+            format.js { render :text => ["http://", @host, "/", @item.shortened].join }
           end
         end
       end

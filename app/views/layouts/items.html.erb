@@ -13,9 +13,15 @@
 
 <%= yield %>
 
-<p>Bookmarklet for your browser: <%= link_to "cortito", "javascript:location.href='http://url.akosma.com/?url='+encodeURIComponent(location.href);" %> (drag and drop on your bookmark toolbar)</p>
+<hr />
 
-<p>Powered by <a href="http://akosma.com">akosma software</a>&apos;s <a href="http://github.com/akosma/cortito/">cortito</a>
+<p><strong>Bookmarklet for your browser:</strong> <%= link_to "cortito", "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %> (drag and drop on your bookmark toolbar)</p>
+
+<p><strong>API:</strong> send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL.</p>
+
+<hr />
+
+<p>Powered by <a href="http://akosma.com">akosma software</a>&apos;s <a href="http://github.com/akosma/cortito/">cortito</a></p>
 
 </body>
 </html>

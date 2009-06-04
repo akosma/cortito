@@ -52,4 +52,16 @@ class ItemsControllerTest < ActionController::TestCase
     assert_redirected_to :shorten
   end
 
+  test "should accept JSON requests" do
+    @request.headers["Accept"] = "application/javascript"
+    get :shorten
+    assert_response :success
+  end
+
+  test "should accept XML requests" do
+    @request.headers["Accept"] = "text/xml"
+    get :shorten
+    assert_response :success
+  end
+
 end
