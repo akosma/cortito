@@ -1,9 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  original: MyString
-  shortened: MyString
+  original: http://123456.com
+  shortened: 123456
 
 two:
-  original: MyString
-  shortened: MyString
+  original: http://abcdef.com
+  shortened: abcdef

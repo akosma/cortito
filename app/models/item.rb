@@ -1,6 +1,6 @@
 class Item < ActiveRecord::Base
   
-  def shorten
+  def save
     # Code adapted from
     # http://travisonrails.com/2007/06/07/Generate-random-text-with-Ruby
     exists = true
@@ -11,6 +11,7 @@ class Item < ActiveRecord::Base
       exists = Item.exists?(:shortened => shortened)
     end
     self.shortened = shortened
+    super
   end
   
 end

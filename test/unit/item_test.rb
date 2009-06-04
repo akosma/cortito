@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class ItemTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  test "should generate its own shortened urls" do
+    item = Item.new
+    item.original = "http://google.com"
+    item.save
+    assert_equal item.shortened.length, 6
   end
+
 end
