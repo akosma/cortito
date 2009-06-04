@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090531132103) do
+ActiveRecord::Schema.define(:version => 20090604171236) do
 
   create_table "items", :force => true do |t|
     t.string   "original"
@@ -17,5 +17,8 @@ ActiveRecord::Schema.define(:version => 20090531132103) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "items", ["original"], :name => "original_index", :unique => true
+  add_index "items", ["shortened"], :name => "shortened_index", :unique => true
 
 end
