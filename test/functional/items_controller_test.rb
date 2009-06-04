@@ -8,9 +8,16 @@ class ItemsControllerTest < ActionController::TestCase
     assert_template :new
   end
 
-  test "should shorten new url" do
+  test "should shorten new url using POST" do
     assert_difference('Item.count') do
       post :shorten, :url => "http://www.google.com/search?q=ruby+on+rails"
+    end
+    assert_template :show
+  end
+  
+  test "should shorten new url using GET" do
+    assert_difference('Item.count') do
+      get :shorten, :url => "http://www.google.com/search?q=matz"
     end
     assert_template :show
   end

@@ -14,12 +14,12 @@ class ItemsController < ApplicationController
   end
 
   def shorten
-    if request.get?
+    if !params.has_key?(:url)
       render :template => "items/new"
     else
       url = params[:url]
       
-      if !params.has_key?(:url) || url.length == 0
+      if url.length == 0
         render :template => "items/invalid"
       else
         shortened_url_prefix = ["http://tinyurl.com/", "http://url.akosma.com/",
