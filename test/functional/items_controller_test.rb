@@ -21,6 +21,21 @@ class ItemsControllerTest < ActionController::TestCase
     end
     assert_template :show
   end
+
+  test "should accept a 'short' parameter with a proposed short url" do
+    assert_difference('Item.count') do
+      get :shorten, :url => "http://www.google.com/search?q=argentina", :short => 'argentina'
+    end
+    assert_template :show
+  end
+
+  test "should propose a random url if the 'short' parameter already exists" do
+    assert_difference('Item.count') do
+      get :shorten, :url => "http://www.google.com/search?q=switzerland", :short => 'switzerland'
+    end
+    post :shorten, :url => "http://www.google.com/search?q=geneva", :short => 'switzerland'
+    assert_template :show
+  end
   
   test "should ignore empty url" do
     post :shorten, :url => ""

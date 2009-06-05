@@ -1,9 +1,9 @@
-<h1>Shorten a URL:</h1>
-
 <form method="post" action="/">
-URL: <input type="text" name="url" value="http://" /><input type="submit" value="Shorten"/>
+<p><label for="url">URL:</label> <input type="text" name="url" id="url" value="http://" /> (required)</p>
+<p><label for="short">Key:</label> <input type="text" name="short" id="short" value="" /> (optional)</p>
+<p class="submit"><input type="submit" value="Shorten" /></p>
 </form>
 
 <script type="text/javascript">
-    document.forms[0].url.focus();
+  document.forms[0].url.focus();
 </script>

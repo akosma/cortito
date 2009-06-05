@@ -26,6 +26,20 @@ p.error {
   color: red;
 }
 
+label
+{
+  width: 4em;
+  float: left;
+  text-align: right;
+  margin-right: 0.5em;
+  display: block;
+}
+
+p.submit input
+{
+  margin-left: 5.5em;
+}
+
 #errorExplanation {
   width: 400px;
   border: 2px solid red;

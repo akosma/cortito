@@ -20,6 +20,11 @@ class ItemsController < ApplicationController
       render :template => "items/new"
     else
       url = params[:url]
+      short = nil
+      
+      if params.has_key?(:short)
+        short = CGI::escape(params[:short])
+      end
       
       if url.length == 0
         render :template => "items/invalid"
@@ -45,6 +50,7 @@ class ItemsController < ApplicationController
           if not @item
             @item = Item.new
             @item.original = params[:url]
+            @item.shortened = short
             @item.save
           end
       
