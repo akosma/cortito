@@ -48,8 +48,9 @@ class ItemsController < ApplicationController
       @item = Item.new
       @item.original = params[:url]
       @item.shortened = short
-      @item.save
     end
+
+    @item.save
 
     respond_to do |format|
       format.html do

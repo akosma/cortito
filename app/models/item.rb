@@ -12,6 +12,7 @@ class Item < ActiveRecord::Base
         shorten_url
       end
     end
+    self.count += 1
     super
   end
 

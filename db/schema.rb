@@ -9,13 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090604171236) do
+ActiveRecord::Schema.define(:version => 20090605100541) do
 
   create_table "items", :force => true do |t|
-    t.string   "original"
-    t.string   "shortened"
+    t.text     "original",   :limit => 1024,                :null => false
+    t.text     "shortened",  :limit => 1024,                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "count",                      :default => 0, :null => false
   end
 
   add_index "items", ["original"], :name => "original_index", :unique => true
