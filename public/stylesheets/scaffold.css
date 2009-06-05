@@ -15,6 +15,9 @@ pre {
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
+a.shortened { font-size: 18px; color: green; text-decoration: none; font-weight: bold;}
+a.shortened:hover { background-color: green; color: white;}
+
 
 .fieldWithErrors {
   padding: 2px;

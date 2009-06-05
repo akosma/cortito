@@ -1,5 +1,5 @@
 <%= render :partial => "form" %>
 
-<p><%= link_to @short_url, @short_url %> redirects to <%= link_to @item.original, @item.original %></p>
+<p><%= link_to @short_url, @short_url, :class => "shortened" %> now redirects to <%= link_to @item.original, @item.original %></p>
 
-<p><%= link_to "Share in Twitter!", @twitter_url %></p>
+<p><%= link_to "Share in Twitter!", @twitter_url, :class => "shortened" %></p>
