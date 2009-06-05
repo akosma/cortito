@@ -12,8 +12,8 @@
 ActiveRecord::Schema.define(:version => 20090605100541) do
 
   create_table "items", :force => true do |t|
-    t.string   "original",   :limit => 1024,                :null => false
-    t.string   "shortened",  :limit => 1024,                :null => false
+    t.string   "original",   :limit => 512,                :null => false
+    t.string   "shortened",  :limit => 512,                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "count",                      :default => 0, :null => false
