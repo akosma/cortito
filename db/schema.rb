@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(:version => 20090605100541) do
     t.string   "shortened",  :limit => 512,                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "count",                      :default => 0, :null => false
+    t.integer  "count",                     :default => 0, :null => false
   end
 
   add_index "items", ["original"], :name => "original_index", :unique => true
