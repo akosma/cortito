@@ -1,9 +1,9 @@
 body { background-color: #fff; color: #333; }
 
-body, p, ol, ul, td {
-  font-family: arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
+body, p, ol, ul, td, input {
+  font-family: helvetica, arial, sans-serif;
+  font-size:   18px;
+  line-height: 24px;
 }
 
 pre {
@@ -15,7 +15,7 @@ pre {
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
-a.shortened { font-size: 18px; color: green; text-decoration: none; font-weight: bold;}
+a.shortened { color: green; text-decoration: none; font-weight: bold;}
 a.shortened:hover { background-color: green; color: white;}
 
 
@@ -31,16 +31,13 @@ p.error {
 
 label
 {
-  width: 4em;
   float: left;
-  text-align: right;
-  margin-right: 0.5em;
-  display: block;
+  margin-left: 2em;
 }
 
-p.submit input
-{
-  margin-left: 5.5em;
+form input.forminput {
+  width: 20em;
+  margin-left: 2em;
 }
 
 #errorExplanation {
