@@ -68,15 +68,36 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   test "should accept JSON requests" do
-    @request.headers["Accept"] = "application/javascript"
-    get :shorten
+    @request.env["HTTP_ACCEPT"] = "application/javascript"
+    get :shorten, :url => "http://kosmaczewski.net/2008/08/11/saving-a-failing-project/"
     assert_response :success
+    assert @response.body.ends_with?("blzrur")
   end
 
   test "should accept XML requests" do
-    @request.headers["Accept"] = "text/xml"
-    get :shorten
+    @request.env["HTTP_ACCEPT"] = "text/xml"
+    get :shorten, :url => "http://kosmaczewski.net/2008/08/11/saving-a-failing-project/"
     assert_response :success
+    assert @response.body.ends_with?("blzrur")
+  end
+  
+  test "should accept a 'reverse' parameter which returns the original URL" do
+    get :shorten, :reverse => "blzrur"
+    assert_response :success
+  end
+  
+  test "should return the original URL with XML requests and the 'reverse' parameter" do
+    @request.env["HTTP_ACCEPT"] = "text/xml"
+    get :shorten, :reverse => "blzrur"
+    assert_response :success
+    assert_equal "http://kosmaczewski.net/2008/08/11/saving-a-failing-project/", @response.body
+  end
+
+  test "should return the original URL with JSON requests and the 'reverse' parameter" do
+    @request.env["HTTP_ACCEPT"] = "application/javascript"
+    get :shorten, :reverse => "blzrur"
+    assert_response :success
+    assert_equal "http://kosmaczewski.net/2008/08/11/saving-a-failing-project/", @response.body
   end
 
 end

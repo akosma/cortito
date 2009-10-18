@@ -7,3 +7,7 @@ one:
 two:
   original: http://abcdef.com
   shortened: abcdef
+
+three:
+  original: http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
+  shortened: blzrur
