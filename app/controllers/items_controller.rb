@@ -56,6 +56,12 @@ class ItemsController < ApplicationController
       format.html do
         @short_url = ["http://", @host, "/", @item.shortened].join
         @twitter_url = ["http://twitter.com/home?status=", @short_url].join
+        newline = "%0D%0A"
+        @email_url = ["mailto:?subject=Check out this URL shortened by cortito",
+                      "&body=Check out this URL: ", @short_url, newline, 
+                      "Originally: ", @item.original, newline, newline, 
+                      "Shortened by cortito http://url.akosma.com/", newline, 
+                      "by akosma software http://akosma.com/", newline].join
         render :template => "items/show"
       end
       format.xml { render :text => ["http://", @host, "/", @item.shortened].join }
