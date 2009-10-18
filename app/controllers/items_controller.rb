@@ -16,41 +16,55 @@ class ItemsController < ApplicationController
   def shorten
     @host = request.host_with_port
 
-    if !params.has_key?(:url)
+    if !params.has_key?(:url) && !params.has_key?(:reverse)
       render :template => "items/new"
       return
     end
 
-    url = params[:url]
-    short = nil
+    if params.has_key?(:reverse)
+      reverse = params[:reverse]
+
+      if reverse.length == 0
+        render :template => "items/invalid"
+        return
+      end
+
+      @item = Item.find_by_shortened(reverse)
+      if not @item
+        render :template => "items/not_found"
+        return
+      end
+    else
+      url = params[:url]
+      short = nil
     
-    if params.has_key?(:short)
-      short = CGI::escape(params[:short])
-    end
+      if params.has_key?(:short)
+        short = CGI::escape(params[:short])
+      end
     
-    if url.length == 0
-      render :template => "items/invalid"
-      return
-    end
+      if url.length == 0
+        render :template => "items/invalid"
+        return
+      end
 
-    if is_already_shortened_url?(url)
-      render :template => "items/invalid"
-      return
-    end
+      if is_already_shortened_url?(url)
+        render :template => "items/invalid"
+        return
+      end
 
-    if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
-      render :template => "items/short"
-      return
-    end
-  
-    @item = Item.find_by_original(url)
-    if not @item
-      @item = Item.new
-      @item.original = params[:url]
-      @item.shortened = short
-    end
+      if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
+        render :template => "items/short"
+        return
+      end
 
-    @item.save
+      @item = Item.find_by_original(url)
+      if not @item
+        @item = Item.new
+        @item.original = params[:url]
+        @item.shortened = short
+      end
+      @item.save
+    end
 
     respond_to do |format|
       format.html do
@@ -65,13 +79,21 @@ class ItemsController < ApplicationController
         @echofon_url = ["echofon:", @short_url].join
         render :template => "items/show"
       end
-      format.xml { render :text => ["http://", @host, "/", @item.shortened].join }
-      format.js { render :text => ["http://", @host, "/", @item.shortened].join }
+      format.xml { render_for_api }
+      format.js { render_for_api }
     end
 
   end
 
 private
+
+  def render_for_api
+    if params.has_key?(:reverse)
+      render :text => @item.original
+    else
+      render :text => ["http://", @host, "/", @item.shortened].join
+    end
+  end
 
   def is_already_shortened_url?(url)
     shortened_url_prefix = ["http://tinyurl.com/", "http://url.akosma.com/",
