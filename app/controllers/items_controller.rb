@@ -62,6 +62,7 @@ class ItemsController < ApplicationController
                       "Originally: ", @item.original, newline, newline, 
                       "Shortened by cortito http://url.akosma.com/", newline, 
                       "by akosma software http://akosma.com/", newline].join
+        @echofon_url = ["echofon:", @short_url].join
         render :template => "items/show"
       end
       format.xml { render :text => ["http://", @host, "/", @item.shortened].join }
