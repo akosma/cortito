@@ -25,13 +25,13 @@ class ItemsController < ApplicationController
       reverse = params[:reverse]
 
       if reverse.length == 0
-        render :template => "items/invalid"
+        render_error "items/invalid"
         return
       end
 
       @item = Item.find_by_shortened(reverse)
       if not @item
-        render :template => "items/not_found"
+        render_error "items/not_found"
         return
       end
     else
@@ -43,25 +43,25 @@ class ItemsController < ApplicationController
       end
     
       if url.length == 0
-        render :template => "items/invalid"
+        render_error "items/invalid"
+        return
+      end
+
+      if !url.starts_with?("http://")
+        render_error "items/invalid"
         return
       end
 
       if is_already_shortened_url?(url)
-        render :template => "items/invalid"
+        render_error "items/invalid"
         return
       end
 
       if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
-        render :template => "items/short"
+        render_error "items/short"
         return
       end
       
-      if !url.starts_with?("http://")
-        render :template => "items/invalid"
-        return
-      end
-
       @item = Item.find_by_original(url)
       if not @item
         @item = Item.new
@@ -91,6 +91,14 @@ class ItemsController < ApplicationController
   end
 
 private
+
+  def render_error(error_template)
+    respond_to do |format|
+      format.html { render :template => error_template }
+      format.xml { render :text => "" }
+      format.js { render :text => "" }
+    end
+  end
 
   def render_for_api
     if params.has_key?(:reverse)
