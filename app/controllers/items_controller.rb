@@ -93,10 +93,14 @@ class ItemsController < ApplicationController
 private
 
   def render_error(error_template)
+    url = ""
+    if params.has_key?(:url)
+      url = params[:url]
+    end
     respond_to do |format|
       format.html { render :template => error_template }
-      format.xml { render :text => "" }
-      format.js { render :text => "" }
+      format.xml { render :text => url }
+      format.js { render :text => url }
     end
   end
 
