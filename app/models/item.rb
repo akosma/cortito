@@ -19,7 +19,7 @@ class Item < ActiveRecord::Base
 private
   
   def shortened_url_exists?
-    self.shortened.nil? || Item.exists?(:shortened => shortened)
+    self.shortened.nil? || self.shortened.length == 0 || Item.exists?(:shortened => shortened)
   end
 
   def shorten_url
@@ -28,7 +28,7 @@ private
     chars = 'abcdefghijklmnopqrstuvwxyz1234567890_'
     while shortened_url_exists? do
       result = ''  
-      SHORT_URL_LENGTH.times { |i| result << chars[rand(chars.length)] }
+      rand(SHORT_URL_LENGTH).times { |i| result << chars[rand(chars.length)] }
       self.shortened = result
     end
   end
