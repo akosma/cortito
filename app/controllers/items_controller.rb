@@ -56,11 +56,16 @@ class ItemsController < ApplicationController
         render :template => "items/short"
         return
       end
+      
+      if !url.starts_with?("http://")
+        render :template => "items/invalid"
+        return
+      end
 
       @item = Item.find_by_original(url)
       if not @item
         @item = Item.new
-        @item.original = params[:url]
+        @item.original = url
         @item.shortened = short
       end
       @item.save

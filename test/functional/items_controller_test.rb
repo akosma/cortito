@@ -81,6 +81,20 @@ class ItemsControllerTest < ActionController::TestCase
     assert @response.body.ends_with?("blzrur")
   end
   
+  test "should refuse URLs not starting with http://" do
+    post :shorten, :url => "whatever text"
+    assert_template :invalid
+
+    post :shorten, :url => "javascript:alert('here')"
+    assert_template :invalid
+
+    post :shorten, :url => "mailto:some@adress.here"
+    assert_template :invalid
+
+    post :shorten, :url => "__ sdfasdfka sdf8a0s98df as09dff asdff"
+    assert_template :invalid
+  end
+  
   test "should accept a 'reverse' parameter which returns the original URL" do
     get :shorten, :reverse => "blzrur"
     assert_response :success
