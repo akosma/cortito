@@ -81,17 +81,25 @@ class ItemsControllerTest < ActionController::TestCase
     assert @response.body.ends_with?("blzrur")
   end
   
-  test "should refuse URLs not starting with http://" do
-    post :shorten, :url => "whatever text"
+  test "should refuse URLs not starting with http://, https:// or ftp://" do
+    get :shorten, :url => "whatever text"
     assert_template :invalid
 
-    post :shorten, :url => "javascript:alert('here')"
+    get :shorten, :url => "javascript:alert('here')"
     assert_template :invalid
 
-    post :shorten, :url => "mailto:some@adress.here"
+    get :shorten, :url => "mailto:some@address.here"
     assert_template :invalid
 
-    post :shorten, :url => "__ sdfasdfka sdf8a0s98df as09dff asdff"
+    get :shorten, :url => "ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf"
+    assert_template :show
+    assert_response :success
+
+    get :shorten, :url => "https://github.com/account"
+    assert_template :show
+    assert_response :success
+
+    get :shorten, :url => "__ sdfasdfka sdf8a0s98df as09dff asdff"
     assert_template :invalid
   end
   

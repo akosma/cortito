@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
         return
       end
 
-      if !url.starts_with?("http://")
+      if !(url.starts_with?("http://") || url.starts_with?("https://") || url.starts_with?("ftp://"))
         render_error "items/invalid"
         return
       end
