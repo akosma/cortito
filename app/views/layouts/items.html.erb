@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>cortito - URL shortener by akosma software</title>
+  <title><%= @host %> - URL shortener by akosma software</title>
   <%= stylesheet_link_tag 'scaffold' %>
 </head>
 <body>
@@ -15,7 +15,7 @@
 
 <hr />
 
-<p><strong>Bookmarklet for your browser:</strong> <%= link_to "shorten with cortito", "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %> (drag and drop on your bookmark toolbar)</p>
+<p><strong>Bookmarklet for your browser:</strong> <%= link_to "shorten with " + @host, "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %> (drag and drop on your bookmark toolbar)</p>
 
 <p><strong>API:</strong> Send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
