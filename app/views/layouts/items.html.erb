@@ -9,7 +9,7 @@
 </head>
 <body>
     
-<h1>cortito - URL shortener by <a href="http://akosma.com">akosma software</a></h1>
+<h1><%= @host %> - URL shortener by <a href="http://akosma.com">akosma software</a></h1>
 
 <%= yield %>
 
@@ -19,13 +19,13 @@
 
 <p><strong>API:</strong> Send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
-<pre>$ curl --request GET --header "Accept: application/javascript" http://url.akosma.com/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
-http://url.akosma.com/blzrur
+<pre>$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
+http://<%= @host %>/blzrur
 $ _</pre>
 
 You can also send a "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:
 
-<pre>$ curl --request GET --header "Accept: text/xml" http://url.akosma.com/\?reverse=blzrur
+<pre>$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=blzrur
 http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
 $ _</pre>
 
