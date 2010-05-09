@@ -76,12 +76,14 @@ class ItemsController < ApplicationController
         @short_url = ["http://", @host, "/", @item.shortened].join
         @twitter_url = ["http://twitter.com/home?status=", @short_url].join
         newline = "%0D%0A"
-        @email_url = ["mailto:?subject=Check out this URL shortened by cortito",
-                      "&body=Check out this URL: ", @short_url, newline, 
-                      "Originally: ", @item.original, newline, newline, 
-                      "Shortened by cortito http://url.akosma.com/", newline, 
-                      "by akosma software http://akosma.com/", newline].join
+        @email_url = ["mailto:?subject=Check out this URL",
+                      "&body=", @short_url, newline, newline, 
+                      "Shortened by cortito http://akos.ma/ by akosma software http://akosma.com/", newline].join
         @echofon_url = ["echofon:", @short_url].join
+        @twitterrific_url = ["twitterrific:///post?message=", @short_url].join
+        @tweetie_url = ["tweetie:///post?message=", @short_url].join
+        @twittelator_url = ["twit:///post?message=", @short_url].join
+        @twinkle_url = ["twinkle://message=", @short_url].join
         render :template => "items/show"
       end
       format.xml { render_for_api }
