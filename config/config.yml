@@ -1,0 +1,15 @@
+excluded_url_shorteners:
+    - http://tinyurl.com/
+    - http://url.akosma.com/
+    - http://u.nu/
+    - http://snipurl.com/
+    - http://readthisurl.com/
+    - http://doiop.com/
+    - http://urltea.com/
+    - http://dwarfurl.com/
+    - http://memurl.com/
+    - http://shorl.com/
+    - http://traceurl.com/
+    - http://bit.ly/
+    - http://myze.ro/
+    - http://akos.ma/

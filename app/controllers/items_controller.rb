@@ -115,11 +115,7 @@ private
   end
 
   def is_already_shortened_url?(url)
-    shortened_url_prefix = ["http://tinyurl.com/", "http://url.akosma.com/",
-      "http://u.nu/", "http://snipurl.com/", "http://readthisurl.com/",
-      "http://doiop.com/", "http://urltea.com/", "http://dwarfurl.com/", 
-      "http://memurl.com/", "http://shorl.com/", "http://traceurl.com/", 
-      "http://bit.ly/"]
+    shortened_url_prefix = APP_CONFIG["excluded_url_shorteners"]
     
     shortened_url_prefix.each do |prefix|
       if url.starts_with?(prefix)
