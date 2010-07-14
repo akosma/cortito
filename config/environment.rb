@@ -4,7 +4,7 @@
 
 RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 
-CORTITO_VERSION = '1.4.5'
+CORTITO_VERSION = '1.5'
 
 require File.join(File.dirname(__FILE__), 'boot')
 

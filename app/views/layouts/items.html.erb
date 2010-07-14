@@ -9,29 +9,83 @@
 </head>
 <body>
     
-<h1><%= @host %> - URL shortener by <a href="http://akosma.com">akosma software</a></h1>
+<div id="container">
 
+<div id="poweredby">URL shortener powered by<br />
+    akosma software's cortito <%= CORTITO_VERSION %></div>
+
+<div class="thickline"></div>
+<div id="menu">
+    <div id="githublink"><a href="http://github.com/akosma/cortito">Cortito on Github</a></div>
+    <div id="otherlinks">
+        <ul>
+            <li><a id="bookmarkletlink" class="selected" href="#">Bookmarklet</a></li>
+            <li><a id="apilink" href="#">API</a></li>
+            <li><a id="creditslink" href="#">Credits</a></li>
+        </ul>
+    </div>
+</div>
+<div class="thinline"></div>
+
+<div id="branding">
+    <a href="/">cort<span id="ihighlighted">i</span>to <img src="images/cortito_logo.png" width="74" height="74"></a><span id="hostname"><%=
+    if @short_url
+        link_to @short_url.gsub("http://", ""), @short_url
+    else 
+        @host 
+    end %></span>
+</div>
+<div class="thickline"></div>
+
+<div id="main">
 <%= yield %>
+</div>
 
-<hr />
+<div class="thickline"></div>
 
-<p><strong>Bookmarklet for your browser:</strong> <%= link_to "shorten with " + @host, "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %> (drag and drop on your bookmark toolbar)</p>
+<div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p> 
+<p class="contents">For your browser: <%= link_to "shorten with " + @host, "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %></p>
+<p class="contents">(drag and drop on your bookmark toolbar)</p>
+</div>
 
-<p><strong>API:</strong> Send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
+<div class="instructionsection documentation" id="api">
+<p class="title">API</p>
 
-<pre>$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
-http://<%= @host %>/blzrur
-$ _</pre>
+<p class="contents">Send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
-You can also send a "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:
+<div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
+http://<%= @host %>/blzrur<br />
+$ _</div>
 
-<pre>$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=blzrur
-http://kosmaczewski.net/2008/08/11/saving-a-failing-project/
-$ _</pre>
+<p class="contents">You can also send a "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:</p>
 
-<hr />
+<div class="sample">$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=blzrur<br />
+http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
+$ _</div>
+</div>
 
-<p>Powered by <a href="http://akosma.com">akosma software</a>&apos;s <a href="http://github.com/akosma/cortito/">cortito <%= CORTITO_VERSION %></a></p>
+<div class="instructionsection documentation" id="credits">
+<p class="title">Credits</p>
+<p class="contents">Concept and programming by <a href="http://akosma.com/">akosma software</a>.</p>
+<p class="contents">Visual design by <a href="http://zerofee.org/">Zerofee</a>.</p>
+</div>
+
+<div class="thickline"></div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8" src="javascripts/jquery.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+    $('div#otherlinks a').click(function(evt) {
+        $('div#menu a').removeClass("selected");
+        $(this).addClass("selected");
+        $('div.documentation').hide();
+        var divName = 'div#' + $(this).attr("id").replace("link", "");
+        $(divName).fadeIn();
+    });
+});
+</script>
 
 </body>
 </html>
