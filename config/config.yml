@@ -1,3 +1,5 @@
+brand_name: your company name here
+
 excluded_url_shorteners:
     - http://tinyurl.com/
     - http://url.akosma.com/
