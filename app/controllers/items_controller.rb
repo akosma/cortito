@@ -41,6 +41,14 @@ class ItemsController < ApplicationController
     
       if params.has_key?(:short)
         short = CGI::escape(params[:short])
+
+        if short.length > Item::SHORT_URL_LENGTH
+          if short.downcase != short
+            # probably spam
+            render_error "items/invalid"
+            return
+          end
+        end
       end
     
       if url.length == 0

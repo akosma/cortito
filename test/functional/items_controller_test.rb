@@ -29,6 +29,12 @@ class ItemsControllerTest < ActionController::TestCase
     assert_template :show
   end
 
+  test "should refuse short parameters longer than 6 characters included mixed upper and lowercase chars" do
+    # this could be spam
+    get :shorten, :url => "http://www.google.com/search?q=argentina", :short => 'aRgEnTiNaWhAtEvEr'
+    assert_template :invalid
+  end
+  
   test "should propose a random url if the 'short' parameter already exists" do
     assert_difference('Item.count') do
       get :shorten, :url => "http://www.google.com/search?q=switzerland", :short => 'switzerland'
