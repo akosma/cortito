@@ -87,15 +87,47 @@ $ _</div>
 <p class="title">Credits</p>
 <p class="contents">Concept and programming by <a href="http://akosma.com/">akosma software</a>.</p>
 <p class="contents">Visual design by <a href="http://zerofee.org/">Zerofee</a>.</p>
-<p class="contents"><a href="http://validator.w3.org/check?uri=http%3A%2F%2F<%= @host %>&charset=%28detect+automatically%29&doctype=Inline&group=0">HTML5</a> and <a href="http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2F<%= @host %>%2Fstylesheets%2Fscaffold.css&profile=css3&usermedium=all&warning=1&lang=en">CSS3</a> validated.</p>
+<p class="contents"><a href="http://validator.w3.org/check?charset=utf-8&amp;doctype=HTML5&amp;group=0&amp;uri=http%3A%2F%2F<%= @host %>">HTML5</a> and <a href="http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2F<%= @host %>%2Fstylesheets%2Fscaffold.css&amp;profile=css3&amp;usermedium=all&amp;warning=1&amp;lang=en">CSS3</a> validated.</p>
 </div>
 
 <div class="thickline"></div>
 
 </div>
 
-<script type="text/javascript" charset="utf-8" src="javascripts/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="javascripts/cortito.js"></script>
+<script type="text/javascript" src="javascripts/jquery.js"></script>
+<script type="text/javascript">
+<!--
+var termsOfServiceLoaded = false;
+var privacyLoaded = false;
+
+$(document).ready(function() {
+    $('div#otherlinks a').click(function(evt) {
+        $('div#menu a').removeClass("selected");
+        $(this).addClass("selected");
+        $('div.documentation').hide();
+        var divName = 'div#' + $(this).attr("id").replace("link", "");
+        $(divName).fadeIn();
+        
+        if (!termsOfServiceLoaded && (divName == "div#termsofservice"))
+        {
+            $('div#termsofservicecontents').load('termsofservice.html', function() {
+                $('<strong><%= @brand_name %></strong>').replaceAll("div#termsofservicecontents strong");
+                $('<a href="<%= @brand_url %>"><strong><%= @brand_name %></strong></a>').replaceAll("div#termsofservicecontents a");
+                termsOfServiceLoaded = true;
+            });
+        }
+        
+        if (!privacyLoaded && (divName == "div#privacy"))
+        {
+            $('div#privacycontents').load('privacy.html', function() {
+                $('<strong><%= @brand_name %></strong>').replaceAll("div#privacycontents strong");
+                privacyLoaded = true;
+            });
+        }
+    });
+});
+-->
+</script>
 
 </body>
 </html>

@@ -14,7 +14,9 @@
 <%= link_to "Tweetie,", @tweetie_url, :class => "shortened" %> 
 <%= link_to "Twittelator Pro,", @twittelator_url, :class => "shortened" %>
 <%= link_to "Twinkle", @twinkle_url, :class => "shortened" %><br />
-<%= link_to "Email", @email_url, :class => "shortened" %>, Copy to clipboard <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+<%= link_to "Email", @email_url, :class => "shortened" %>, Copy to clipboard <object
+              type="application/x-shockwave-flash"
+              data="/flash/clipboard.swf"
               width="165"
               height="21"
               class="clippy"
@@ -23,18 +25,17 @@
       <param name="allowScriptAccess" value="always" />
       <param name="quality" value="high" />
       <param name="scale" value="noscale" />
-      <param NAME="FlashVars" value="text=<%= @short_url %>">
-      <param name="bgcolor" value="#d3d4ca">
-      <param name="wmode" value="transparent">
+      <param name="FlashVars" value="text=<%= @short_url %>" />
+      <param name="bgcolor" value="#d3d4ca" />
+      <param name="wmode" value="transparent" />
       <embed src="/flash/clipboard.swf"
              width="165"
              height="21"
-             name="clippy"
              quality="high"
              allowScriptAccess="always"
              type="application/x-shockwave-flash"
              pluginspage="http://www.macromedia.com/go/getflashplayer"
-             FlashVars="text=<%= @short_url %>"
+             flashvars="text=<%= @short_url %>"
              bgcolor="#d3d4ca"
              wmode="transparent"
       />
