@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta charset="UTF-8" />
   <title><%= @host %> - URL shortener by <%= @brand_name %></title>
   <%= stylesheet_link_tag 'scaffold' %>
 </head>
@@ -21,6 +20,8 @@
         <ul>
             <li><a id="bookmarkletlink" class="selected" href="#">Bookmarklet</a></li>
             <li><a id="apilink" href="#">API</a></li>
+            <li><a id="termsofservicelink" href="#">Terms of Service</a></li>
+            <li><a id="privacylink" href="#">Privacy</a></li>
             <li><a id="creditslink" href="#">Credits</a></li>
         </ul>
     </div>
@@ -28,7 +29,7 @@
 <div class="thinline"></div>
 
 <div id="branding">
-    <a href="/">cort<span id="ihighlighted">i</span>to <img src="images/cortito_logo.png" width="74" height="74"></a><span id="hostname"><%=
+    <a href="/">cort<span id="ihighlighted">i</span>to <img src="images/cortito_logo.png" width="74" height="74" alt="cortito logo" /></a><span id="hostname"><%=
     if @short_url
         link_to @short_url.gsub("http://", ""), @short_url
     else 
@@ -43,15 +44,19 @@
 
 <div class="thickline"></div>
 
+<!-- Bookmarklet -->
+
 <div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p> 
 <p class="contents">For your browser: <%= link_to "shorten with " + @host, "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %></p>
 <p class="contents">(drag and drop on your bookmark toolbar)</p>
 </div>
 
+<!-- API -->
+
 <div class="instructionsection documentation" id="api">
 <p class="title">API</p>
 
-<p class="contents">Send a POST or GET request to <tt><%= @host %></tt> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
+<p class="contents">Send a POST or GET request to <span class="sample"><%= @host %></span> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
 <div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
 http://<%= @host %>/blzrur<br />
@@ -64,10 +69,25 @@ http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
 $ _</div>
 </div>
 
+<!-- Terms of Service -->
+
+<div class="instructionsection documentation" id="termsofservice">
+<div id="termsofservicecontents"></div>
+</div>
+
+<!-- Privacy -->
+
+<div class="instructionsection documentation" id="privacy">
+<div id="privacycontents"></div>
+</div>
+
+<!-- Credits -->
+
 <div class="instructionsection documentation" id="credits">
 <p class="title">Credits</p>
 <p class="contents">Concept and programming by <a href="http://akosma.com/">akosma software</a>.</p>
 <p class="contents">Visual design by <a href="http://zerofee.org/">Zerofee</a>.</p>
+<p class="contents"><a href="http://validator.w3.org/check?uri=http%3A%2F%2F<%= @host %>&charset=%28detect+automatically%29&doctype=Inline&group=0">HTML5</a> and <a href="http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2F<%= @host %>%2Fstylesheets%2Fscaffold.css&profile=css3&usermedium=all&warning=1&lang=en">CSS3</a> validated.</p>
 </div>
 
 <div class="thickline"></div>
@@ -75,17 +95,7 @@ $ _</div>
 </div>
 
 <script type="text/javascript" charset="utf-8" src="javascripts/jquery.js"></script>
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
-    $('div#otherlinks a').click(function(evt) {
-        $('div#menu a').removeClass("selected");
-        $(this).addClass("selected");
-        $('div.documentation').hide();
-        var divName = 'div#' + $(this).attr("id").replace("link", "");
-        $(divName).fadeIn();
-    });
-});
-</script>
+<script type="text/javascript" charset="utf-8" src="javascripts/cortito.js"></script>
 
 </body>
 </html>
