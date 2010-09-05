@@ -1,4 +1,5 @@
 brand_name: your company name here
+brand_url: http://your_company_url_here
 
 excluded_url_shorteners:
     - http://tinyurl.com/
