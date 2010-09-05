@@ -16,6 +16,7 @@ class ItemsController < ApplicationController
   def shorten
     @host = request.host_with_port
     @brand_name = APP_CONFIG["brand_name"]
+    @brand_url = APP_CONFIG["brand_url"]
 
     if !params.has_key?(:url) && !params.has_key?(:reverse)
       render :template => "items/new"
