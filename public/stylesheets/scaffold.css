@@ -38,7 +38,6 @@ blockquote, q {
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
-	content: none;
 }
 
 /* remember to define focus styles! */
@@ -136,7 +135,7 @@ div#menu a {
   color: #696969;
 }
 
-div#menu a.selected {
+div#menu a.selected, div#menu a:hover {
   /* 
   This comes from
   http://www.alistapart.com/articles/customunderlines/
@@ -202,9 +201,19 @@ div#credits {
   display: none;
 }
 
+div#privacy div, div#termsofservice div {
+  width: 630px;
+}
+
 p.contents {
   color: #888888;
   font-size: 14px;
+}
+
+li.contents {
+  color: #888888;
+  font-size: 14px;
+  list-style-type: circle;
 }
 
 p.title {
@@ -213,7 +222,7 @@ p.title {
   line-height: 1.2em;
 }
 
-div.sample {
+div.sample, span.sample {
   background-color: #e9e8e6;
   padding: 10px;
   font-size: 11px;
@@ -247,4 +256,10 @@ form input.forminput {
 
 form input.forminput#short {
   background-color: #e9e8e6;
+}
+
+form input.submitbutton {
+  width: 31px; 
+  height:31px; 
+  vertical-align: middle;
 }
