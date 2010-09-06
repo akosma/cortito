@@ -88,9 +88,9 @@ class ItemsController < ApplicationController
         @short_url_sanitized = CGI.escape(@short_url)
         @twitter_url = ["http://twitter.com/home?status=", @short_url_sanitized].join
         newline = "%0D%0A"
-        @email_url = ["mailto:?subject=Check out this URL",
+        @email_url = ["mailto:?subject=Check%20out%20this%20URL",
                       "&body=", @short_url_sanitized, newline, newline, 
-                      "Shortened by cortito http://akos.ma/ by akosma software http://akosma.com/", newline].join
+                      "Shortened%20by%20cortito%20http://akos.ma/%20by%20akosma%20software%20http://akosma.com/", newline].join
         @echofon_url = ["echofon:", @short_url_sanitized].join
         @twitterrific_url = ["twitterrific:///post?message=", @short_url_sanitized].join
         @tweetie_url = ["tweetie:///post?message=", @short_url_sanitized].join
