@@ -1,6 +1,6 @@
 h1. Welcome
 
-This project is the URL shortener Rails application running at http://url.akosma.com. Feel free to use the code in your own server!
+This project is the URL shortener Rails application running at http://akos.ma. Feel free to use the code in your own server!
 
 h2. License
 
