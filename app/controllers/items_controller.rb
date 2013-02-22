@@ -63,8 +63,15 @@ class ItemsController < ApplicationController
       end
 
       if is_already_shortened_url?(url)
-        render_error "items/invalid"
-        return
+        if params.has_key?(:raw)
+          @item = Item.new
+          @item.original = url
+          @item.shortened = url
+          render_for_api
+        else
+          render_error "items/invalid"
+          return
+        end
       end
 
       if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
