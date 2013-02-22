@@ -266,83 +266,175 @@ form input.submitbutton {
 
 /* Styles for smartphones */
 
-@media screen and (max-device-width: 480px) {
+@media screen and (max-width: 480px) {
+    div#container {
+      margin-left: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
-div#container {
-  margin-left: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+    div#poweredby {
+      display: none;
+    }
+
+    div.thickline {
+      background-color: #d3d4ca; 
+      width: 100%;
+    }
+
+    div.thinline {
+      background-color: #d3d4ca; 
+      width: 100%;
+    }
+
+    div#main form {
+        margin: 0.5em 0em 0.5em 0px;
+    }
+
+    div#branding span#hostname {
+        display: block;
+    }
+
+    div#githublink {
+      float: none;
+    }
+
+    div.instructionsection {
+      margin: 1.2em 0em 1em 0px;
+    }
+
+    div#menu a.selected, div#menu a:hover {
+      white-space: normal;
+    }
+
+    div#api {
+      width: 100%;
+      display: none;
+    }
+
+    div#credits {
+      width: 100%;
+      display: none;
+    }
+
+    div#privacy div, div#termsofservice div {
+      width: 100%;
+    }
+
+    div#branding {
+      font-size: 70px;
+      margin: 0em 0em 0em 0em;
+    }
+
+    div#branding img {
+      margin-right: 25px;
+      width: 50px;
+      height: 50px;
+    }
+
+    div.documentation {
+      display: none;
+    }
+
+    div#otherlinks {
+      display: none;
+    }
+
+    div.instructionsection a#originallink {
+      font-size: 12px;
+    }
 }
 
-div#poweredby {
-  display: none;
-}
+/* Styles for tablets */
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    div#container {
+        margin: 10px;
+    }
 
-div.thickline {
-  background-color: #d3d4ca; 
-  width: 100%;
-}
+    div#poweredby {
+      margin-left: 230px;
+    }
 
-div.thinline {
-  background-color: #d3d4ca; 
-  width: 100%;
-}
+    div.thickline {
+      width: 100%;
+    }
 
-div#main form {
-    margin: 0.5em 0em 0.5em 0px;
-}
+    div.thinline {
+      width: 100%;
+    }
 
-div#branding span#hostname {
-    display: block;
-}
+    div#main form {
+        margin: 0.5em 0em 0.5em 0px;
+    }
 
-div#githublink {
-  float: none;
-}
+    div#menu a {
+      font-family: 'LeagueGothicRegular';
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #696969;
+    }
+    
+    div#githublink {
+        width: 230px;
+    }
 
-div.instructionsection {
-  margin: 1.2em 0em 1em 0px;
-}
+    div#otherlinks {
+      width: 500px;
+      display: inline;
+    }
 
-div#menu a.selected, div#menu a:hover {
-  white-space: normal;
-}
+    div.instructionsection {
+      margin: 1.2em 0em 1em 230px;
+    }
 
-div#api {
-  width: 100%;
-  display: none;
-}
+    div#menu a.selected, div#menu a:hover {
+      white-space: normal;
+    }
 
-div#credits {
-  width: 100%;
-  display: none;
-}
+    div#api {
+      width: 100%;
+      display: none;
+    }
 
-div#privacy div, div#termsofservice div {
-  width: 100%;
-}
+    div#credits {
+      width: 100%;
+      display: none;
+    }
 
-div#branding {
-  font-size: 70px;
-  margin: 0em 0em 0em 0em;
-}
+    div#privacy div, div#termsofservice div {
+      width: 100%;
+    }
 
-div#branding img {
-  margin-right: 25px;
-  width: 50px;
-  height: 50px;
-}
+    div#branding {
+      font-size: 70px;
+    }
 
-div.documentation {
-  display: none;
-}
+    div#branding img {
+      margin-right: 25px;
+      width: 50px;
+      height: 50px;
+    }
 
-div#otherlinks {
-  display: none;
-}
+    div.documentation {
+    }
 
-div.instructionsection a#originallink {
-  font-size: 12px;
-}
+    div#otherlinks {
+    }
+
+    div.instructionsection a#originallink {
+      font-size: 12px;
+    }
+    
+    div#api {
+      width: 500px;
+      display: none;
+    }
+
+    div#main form {
+        margin: 0.5em 0em 0.5em 230px;
+    }
+    form input.forminput {
+        width: 200px;
+    }
 }
 
