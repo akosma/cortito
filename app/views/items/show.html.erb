@@ -13,30 +13,5 @@
 <%= link_to "Tweetbot,", @tweetbot_url, :class => "shortened" %>
 <%= link_to "Twitterrific,", @twitterrific_url, :class => "shortened" %>
 <%= link_to "Twittelator Pro,", @twittelator_url, :class => "shortened" %>
-<%= link_to "Echofon,", @echofon_url, :class => "shortened" %><br />
-<%= link_to "Email", @email_url, :class => "shortened" %>, Copy to clipboard <object
-              type="application/x-shockwave-flash"
-              data="/flash/clipboard.swf"
-              width="165"
-              height="21"
-              class="clippy"
-              id="clippy" >
-      <param name="movie" value="/flash/clipboard.swf"/>
-      <param name="allowScriptAccess" value="always" />
-      <param name="quality" value="high" />
-      <param name="scale" value="noscale" />
-      <param name="FlashVars" value="text=<%= @short_url %>" />
-      <param name="bgcolor" value="#d3d4ca" />
-      <param name="wmode" value="transparent" />
-      <embed src="/flash/clipboard.swf"
-             width="165"
-             height="21"
-             quality="high"
-             allowScriptAccess="always"
-             type="application/x-shockwave-flash"
-             pluginspage="http://www.macromedia.com/go/getflashplayer"
-             flashvars="text=<%= @short_url %>"
-             bgcolor="#d3d4ca"
-             wmode="transparent"
-      />
-      </object></p></div>
+<%= link_to "Echofon,", @echofon_url, :class => "shortened" %>
+<%= link_to "Email", @email_url, :class => "shortened" %></p></div>
