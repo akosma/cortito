@@ -263,3 +263,86 @@ form input.submitbutton {
   height:31px; 
   vertical-align: middle;
 }
+
+/* Styles for smartphones */
+
+@media screen and (max-device-width: 480px) {
+
+div#container {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+div#poweredby {
+  display: none;
+}
+
+div.thickline {
+  background-color: #d3d4ca; 
+  width: 100%;
+}
+
+div.thinline {
+  background-color: #d3d4ca; 
+  width: 100%;
+}
+
+div#main form {
+    margin: 0.5em 0em 0.5em 0px;
+}
+
+div#branding span#hostname {
+    display: block;
+}
+
+div#githublink {
+  float: none;
+}
+
+div.instructionsection {
+  margin: 1.2em 0em 1em 0px;
+}
+
+div#menu a.selected, div#menu a:hover {
+  white-space: normal;
+}
+
+div#api {
+  width: 100%;
+  display: none;
+}
+
+div#credits {
+  width: 100%;
+  display: none;
+}
+
+div#privacy div, div#termsofservice div {
+  width: 100%;
+}
+
+div#branding {
+  font-size: 70px;
+  margin: 0em 0em 0em 0em;
+}
+
+div#branding img {
+  margin-right: 25px;
+  width: 50px;
+  height: 50px;
+}
+
+div.documentation {
+  display: none;
+}
+
+div#otherlinks {
+  display: none;
+}
+
+div.instructionsection a#originallink {
+  font-size: 12px;
+}
+}
+
