@@ -93,9 +93,8 @@ class ItemsController < ApplicationController
                       "Shortened%20by%20cortito%20http://akos.ma/%20by%20akosma%20software%20http://akosma.com/", newline].join
         @echofon_url = ["echofon:", @short_url_sanitized].join
         @twitterrific_url = ["twitterrific:///post?message=", @short_url_sanitized].join
-        @tweetie_url = ["tweetie:///post?message=", @short_url_sanitized].join
+        @twitter_url = ["twitter://post?message=", @short_url_sanitized].join
         @twittelator_url = ["twit:///post?message=", @short_url_sanitized].join
-        @twinkle_url = ["twinkle://?message=", @short_url_sanitized].join
         @tweetbot_url = ["tweetbot:///post?text=", @short_url_sanitized].join
         render :template => "items/show"
       end
