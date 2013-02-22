@@ -63,17 +63,8 @@ class ItemsController < ApplicationController
       end
 
       if is_already_shortened_url?(url)
-        if params.has_key?(:raw)
-          @item = Item.new
-          @item.original = url
-          url.slice! ["http://", @host, "/"].join
-          @item.shortened = url
-          render_for_api
-          return
-        else
-          render_error "items/invalid"
-          return
-        end
+        render_error "items/invalid"
+        return
       end
 
       if url.length < ("http://".length + @host.length + 1 + Item::SHORT_URL_LENGTH)
@@ -92,24 +83,20 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if params.has_key?(:raw)
-          render_for_api
-        else
-          @short_url = ["http://", @host, "/", @item.shortened].join
-          
-          @short_url_sanitized = CGI.escape(@short_url)
-          @twitter_web_url = ["http://twitter.com/home?status=", @short_url_sanitized].join
-          newline = "%0D%0A"
-          @email_url = ["mailto:?subject=Check%20out%20this%20URL",
-                        "&body=", @short_url_sanitized, newline, newline, 
-                        "Shortened%20by%20cortito%20http://akos.ma/%20by%20akosma%20software%20http://akosma.com/", newline].join
-          @echofon_url = ["echofon:", @short_url_sanitized].join
-          @twitterrific_url = ["twitterrific:///post?message=", @short_url_sanitized].join
-          @twitter_app_url = ["twitter://post?message=", @short_url_sanitized].join
-          @twittelator_url = ["twit:///post?message=", @short_url_sanitized].join
-          @tweetbot_url = ["tweetbot:///post?text=", @short_url_sanitized].join
-          render :template => "items/show"
-        end
+        @short_url = ["http://", @host, "/", @item.shortened].join
+        
+        @short_url_sanitized = CGI.escape(@short_url)
+        @twitter_web_url = ["http://twitter.com/home?status=", @short_url_sanitized].join
+        newline = "%0D%0A"
+        @email_url = ["mailto:?subject=Check%20out%20this%20URL",
+                      "&body=", @short_url_sanitized, newline, newline, 
+                      "Shortened%20by%20cortito%20http://akos.ma/%20by%20akosma%20software%20http://akosma.com/", newline].join
+        @echofon_url = ["echofon:", @short_url_sanitized].join
+        @twitterrific_url = ["twitterrific:///post?message=", @short_url_sanitized].join
+        @twitter_app_url = ["twitter://post?message=", @short_url_sanitized].join
+        @twittelator_url = ["twit:///post?message=", @short_url_sanitized].join
+        @tweetbot_url = ["tweetbot:///post?text=", @short_url_sanitized].join
+        render :template => "items/show"
       end
       format.xml { render_for_api }
       format.js { render_for_api }
