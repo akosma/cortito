@@ -66,7 +66,8 @@ class ItemsController < ApplicationController
         if params.has_key?(:raw)
           @item = Item.new
           @item.original = url
-          @item.shortened = url.slice! @host
+          url.slice! ["http://", @host, "/"].join
+          @item.shortened = url
           render_for_api
           return
         else
