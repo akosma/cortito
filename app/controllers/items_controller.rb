@@ -68,6 +68,7 @@ class ItemsController < ApplicationController
           @item.original = url
           @item.shortened = url
           render_for_api
+          return
         else
           render_error "items/invalid"
           return
