@@ -96,6 +96,7 @@ class ItemsController < ApplicationController
         @tweetie_url = ["tweetie:///post?message=", @short_url_sanitized].join
         @twittelator_url = ["twit:///post?message=", @short_url_sanitized].join
         @twinkle_url = ["twinkle://?message=", @short_url_sanitized].join
+        @tweetbot_url = ["tweetbot:///post?text=", @short_url_sanitized].join
         render :template => "items/show"
       end
       format.xml { render_for_api }
