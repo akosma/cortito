@@ -59,14 +59,14 @@
 
 <p class="contents">Send a POST or GET request to <span class="sample"><%= @host %></span> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
-<div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
-http://<%= @host %>/blzrur<br />
+<div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://shop.oreilly.com/product/0636920026877.do<br />
+http://<%= @host %>/st2ur<br />
 $ _</div>
 
 <p class="contents">You can also send a "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:</p>
 
-<div class="sample">$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=blzrur<br />
-http://kosmaczewski.net/2008/08/11/saving-a-failing-project/<br />
+<div class="sample">$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=st2ur<br />
+http://shop.oreilly.com/product/0636920026877.do<br />
 $ _</div>
 </div>
 
