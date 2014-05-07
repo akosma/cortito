@@ -20,8 +20,7 @@ $subtemplate = $this->data["subtemplate"];
 
 <div id="container">
 
-<div id="poweredby">URL shortener powered by<br />
-akosma software's cortito <?= $cortito_version ?></div>
+<div id="poweredby">URL shortener powered by cortito <?= $cortito_version ?></div>
 
             <div class="thickline"></div>
             <div id="menu">
