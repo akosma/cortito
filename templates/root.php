@@ -1,8 +1,8 @@
 <?php
 $short_url = $this->data["short_url"];
 $host = $this->data["host"];
-$parsed = parse_url($host);
-$domain = $parsed["host"];
+$domain = $this->data["domain"];
+$shortened = $this->data["shortened"];
 $brand_name = $this->data["brand_name"];
 $brand_url = $this->data["brand_url"];
 $cortito_version = $this->data['cortito_version'];
@@ -39,9 +39,9 @@ $subtemplate = $this->data["subtemplate"];
 
             <div id="branding">
 <a href="/">cort<span id="ihighlighted">i</span>to <img src="/public/images/cortito_logo.png" width="74" height="74" alt="cortito logo" /></a><span id="hostname"><?php
-if (isset($short_url))
+if (isset($shortened))
 {
-    echo ($short_url);
+    echo ("$domain/$shortened");
 }
 else
 {
@@ -69,7 +69,7 @@ else
         <div class="instructionsection documentation" id="api">
             <p class="title">API</p>
 
-            <p class="contents">Send a POST or GET request to <span class="sample"><?= $host ?></span> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
+            <p class="contents">Send a POST or GET request to <span class="sample"><?= $host ?></span> with a "url" parameter, with either an <span class="sample">Accept: application/javascript</span> or <span class="sample">Accept: text/xml</span> header. You'll get a simple text response with the shortened URL:</p>
 
             <div class="sample">$ curl --request GET --header "Accept: application/javascript" <?= $host ?>/\?url=http://shop.oreilly.com/product/0636920026877.do<br />
 <?= $host ?>/st2ur<br />

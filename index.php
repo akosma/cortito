@@ -40,9 +40,10 @@ $app = new \Slim\Slim(array(
 
 // Global objects
 $host = $app->request->getUrl();
+$domain = $app->request->getHost();
 $config = new Config;
 
-$render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $config) {
+$render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $config, $domain) {
     // Decide on the type of answer, depending on the request
     $req = $app->request->headers()->get('ACCEPT');
     if ($req == 'application/javascript' || $req == 'text/xml') {
@@ -56,6 +57,7 @@ $render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $c
         $app->render('root.php',
             array(
                 'host' => $host,
+                'domain' => $domain,
                 'brand_name' => $config->getBrandName(),
                 'brand_url' => $config->getBrandUrl(),
                 'cortito_version' => '2.0',
@@ -65,17 +67,19 @@ $render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $c
     }
 };
 
-$render_with_url = function ($original, $shortened) use ($app, $host, $config) {
+$render_with_url = function ($original, $shortened) use ($app, $host, $config, $domain) {
     $short_url = "$host/$shortened";
     $short_url_sanitized = urlencode($short_url);
     $newline = "%0D%0A";
     $app->render('root.php',
         array(
             'host' => $host,
+            'domain' => $domain,
             'brand_name' => $config->getBrandName(),
             'brand_url' => $config->getBrandUrl(),
             'cortito_version' => '2.0',
             'subtemplate' => 'show.php',
+            'shortened' => $shortened,
             'short_url' => $short_url,
             'original' => $original,
             'twitter_web_url' => "http://twitter.com/home?status=$short_url_sanitized",
@@ -91,7 +95,7 @@ $render_with_url = function ($original, $shortened) use ($app, $host, $config) {
     );
 };
 
-$is_valid = function ($url) use ($config) {
+$is_valid = function ($url) use ($config, $host) {
     $max_length = $config->getMaxShortLength();
 
     // Let's make sure the length of the input URL is bigger than zero
@@ -113,7 +117,7 @@ $is_valid = function ($url) use ($config) {
     // Finally, make sure that the URL is not already shortened by another
     // URL shortener
     $exclusions = $config->getExcludedUrlShorteners();
-    if (is_shortener($url, $exclusions)) {
+    if (in_array($url, $exclusions)) {
         return false;
     }
 
@@ -135,7 +139,7 @@ $redirect = function ($shortened) use ($app) {
     }
 };
 
-$shorten = function () use ($app, $render, $config, $host, $render_with_url) {
+$shorten = function () use ($app, $render, $config, $render_with_url, $is_valid) {
     $url = $app->request->params('url');
     if (isset($url)) {
         $max_length = $config->getMaxShortLength();
@@ -199,7 +203,7 @@ $shorten = function () use ($app, $render, $config, $host, $render_with_url) {
     }
 };
 
-$reverse = function ($shortened) use ($render_with_url, $render, $host, $app) {
+$reverse = function ($shortened) use ($render_with_url, $render, $app) {
     $row = find_by_shortened($shortened);
     if (isset($row)) {
         $original = $row["original"];

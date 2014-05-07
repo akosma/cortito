@@ -25,76 +25,55 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class Connection
-{
-    var $server;
-    var $user;
-    var $password;
-    var $database;
+class Connection {
     var $connection;
 
-    function Connection($server, $database, $user, $password)
-    {
-        $this->server = $server;
-        $this->database = $database;
-        $this->user = $user;
-        $this->password = $password;
-    }
-
-    function open()
-    {
-        $this->connection = mysqli_connect($this->server, $this->user, $this->password, $this->database)
+    function __construct($server, $database, $user, $password) {
+        $this->connection = mysqli_connect($server, $user, $password, $database)
             or trigger_error(mysqli_error(), E_USER_ERROR);
+        mysqli_select_db($this->connection, $database);
     }
 
-    function execute($query)
-    {
-        mysqli_select_db($this->connection, $this->database);
+    function __destruct() {
+        $this->connection->close();
+        $this->connection = null;
+    }
+
+    function read($query) {
         $results = mysqli_query($this->connection, $query) or die(mysql_error());
         $recordset = new Recordset($results);
         return $recordset;
     }
 
-    function close()
-    {
-        $this->connection = null;
+    function write($query) {
+        mysqli_query($this->connection, $query) or die(mysql_error());
+    }
+
+    function escape($string) {
+        return mysqli_real_escape_string($this->connection, $string);
     }
 }
 
-class Recordset
-{
+class Recordset {
     var $recordset;
     var $count;
 
-    function Recordset($rs)
-    {
+    function __construct($rs) {
         $this->recordset = $rs;
         $this->count = mysqli_num_rows($rs);
     }
 
-    function next()
-    {
-        return mysqli_fetch_assoc($this->recordset);
-    }
-
-    function count()
-    {
-        return $this->count;
-    }
-
-    function close()
-    {
+    function __destruct() {
         mysqli_free_result($this->recordset);
         $this->recordset = null;
     }
-}
 
-function execute($query, $server, $database, $user, $password)
-{
-    $conn = new Connection($server, $database, $user, $password);
-    $conn->open();
-    $recordset = $conn->execute($query);
-    $conn->close();
-    return $recordset;
+    function next() {
+        return mysqli_fetch_assoc($this->recordset);
+    }
+
+    function count() {
+        return $this->count;
+    }
 }
 

@@ -35,13 +35,11 @@ function find_by_shortened($shortened) {
     $username = $config->getUsername();
     $password = $config->getPassword();
 
-    $conn = mysqli_connect($server, $username, $password, $database)
-        or trigger_error(mysqli_error(), E_USER_ERROR);
-
+    $conn = new Connection($server, $database, $username, $password);
     $query = sprintf("SELECT * FROM items WHERE shortened = '%s'",
-        mysqli_real_escape_string($conn, $shortened));
-    $rs = execute($query, $server, $database, $username, $password);
-    $row = $rs->next();
+        $conn->escape($shortened));
+    $recordset = $conn->read($query);
+    $row = $recordset->next();
     return $row;
 }
 
@@ -52,14 +50,38 @@ function find_by_original($original) {
     $username = $config->getUsername();
     $password = $config->getPassword();
 
-    $conn = mysqli_connect($server, $username, $password, $database)
-        or trigger_error(mysqli_error(), E_USER_ERROR);
-
+    $conn = new Connection($server, $database, $username, $password);
     $query = sprintf("SELECT * FROM items WHERE original = '%s'",
-        mysqli_real_escape_string($conn, $original));
-    $rs = execute($query, $server, $database, $username, $password);
-    $row = $rs->next();
+        $conn->escape($original));
+    $recordset = $conn->read($query);
+    $row = $recordset->next();
     return $row;
+}
+
+function insert_url($original, $shortened) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = new Connection($server, $database, $username, $password);
+    $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
+        $conn->escape($original),
+        $conn->escape($shortened));
+    $conn->write($query);
+}
+
+function update_count($id, $count) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = new Connection($server, $database, $username, $password);
+    $query = "UPDATE items SET count = $count WHERE id = $id";
+    $conn->write($query);
 }
 
 function generate_random_string($length = 6) {
@@ -72,47 +94,6 @@ function generate_random_string($length = 6) {
         $randomString .= $characters[rand(0, strlen($characters) - 1)];
     }
     return $randomString;
-}
-
-function insert_url($original, $shortened) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = mysqli_connect($server, $username, $password, $database)
-        or trigger_error(mysqli_error(), E_USER_ERROR);
-
-    $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
-        mysqli_real_escape_string($conn, $original),
-        mysqli_real_escape_string($conn, $shortened));
-    $results = mysqli_query($conn, $query) or die(mysql_error());
-}
-
-function update_count($id, $count) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = mysqli_connect($server, $username, $password, $database)
-        or trigger_error(mysqli_error(), E_USER_ERROR);
-
-    $query = "UPDATE items SET count = $count WHERE id = $id";
-    $results = mysqli_query($conn, $query) or die(mysql_error());
-}
-
-function is_already_shortened($original) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = mysqli_connect($server, $username, $password, $database)
-        or trigger_error(mysqli_error(), E_USER_ERROR);
 }
 
 function link_to($text, $href, $options = array()) {
@@ -153,14 +134,5 @@ function ends_with($haystack, $needle) {
     }
 
     return (substr($haystack, -$length) === $needle);
-}
-
-function is_shortener($url, $exclusions) {
-    foreach ($exclusions as $exclusion) {
-        if (starts_with($url, $exclusion)) {
-            return true;
-        }
-    }
-    return false;
 }
 
