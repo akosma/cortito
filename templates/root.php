@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <title><?php echo($this->data['host']); ?> - URL shortener by <?php echo($this->data['brandName']); ?></title>
-        <link href="/stylesheets/cortito.css" media="screen" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title><?= $this->data['host'] ?> - URL shortener by <?= $this->data['brand_name'] ?></title>
+<link href="public/stylesheets/cortito.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
 
-        <div id="container">
+<div id="container">
 
-            <div id="poweredby">URL shortener powered by<br />
-                akosma software's cortito <%= CORTITO_VERSION %></div>
+<div id="poweredby">URL shortener powered by<br />
+akosma software's cortito <?= $this->data['cortito_version'] ?></div>
 
             <div class="thickline"></div>
             <div id="menu">
-                <div id="githublink"><a href="http://github.com/akosma/cortito">Cortito on Github</a></div>
-                <div id="otherlinks">
-                    <ul>
-                        <li><a id="bookmarkletlink" class="selected" href="#">Bookmarklet</a></li>
-                        <li><a id="apilink" href="#">API</a></li>
-                        <li><a id="termsofservicelink" href="#">Terms of Service</a></li>
-                        <li><a id="privacylink" href="#">Privacy</a></li>
-                        <li><a id="creditslink" href="#">Credits</a></li>
-                    </ul>
-                </div>
+<div id="githublink"><a href="http://github.com/akosma/cortito">Cortito on Github</a></div>
+<div id="otherlinks">
+    <ul>
+        <li><a id="bookmarkletlink" class="selected" href="#">Bookmarklet</a></li>
+        <li><a id="apilink" href="#">API</a></li>
+        <li><a id="termsofservicelink" href="#">Terms of Service</a></li>
+        <li><a id="privacylink" href="#">Privacy</a></li>
+        <li><a id="creditslink" href="#">Credits</a></li>
+    </ul>
+</div>
             </div>
             <div class="thinline"></div>
 
             <div id="branding">
-                <a href="/">cort<span id="ihighlighted">i</span>to <img src="images/cortito_logo.png" width="74" height="74" alt="cortito logo" /></a><span id="hostname"><%=
-                if @short_url
-                    link_to @short_url.gsub("http://", ""), @short_url
-                else 
-                    @host 
-                end %></span>
+<a href="/">cort<span id="ihighlighted">i</span>to <img src="public/images/cortito_logo.png" width="74" height="74" alt="cortito logo" /></a><span id="hostname"><?php
+$short_url = $this->data["short_url"];
+if ($short_url != null)
+{
+    echo ($short_url);
+}
+else
+{
+    echo ($this->data['host']);
+}
+?></span>
         </div>
         <div class="thickline"></div>
 
@@ -59,14 +64,14 @@
             <p class="contents">Send a POST or GET request to <span class="sample"><%= @host %></span> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
             <div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<%= @host %>/\?url=http://shop.oreilly.com/product/0636920026877.do<br />
-                http://<%= @host %>/st2ur<br />
-                $ _</div>
+http://<%= @host %>/st2ur<br />
+$ _</div>
 
             <p class="contents">You can also send a "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:</p>
 
             <div class="sample">$ curl --request GET --header "Accept: text/xml" http://<%= @host %>/\?reverse=st2ur<br />
-                http://shop.oreilly.com/product/0636920026877.do<br />
-                $ _</div>
+http://shop.oreilly.com/product/0636920026877.do<br />
+$ _</div>
         </div>
 
         <!-- Terms of Service -->
@@ -94,7 +99,7 @@
 
     </div>
 
-    <script type="text/javascript" src="javascripts/jquery.js"></script>
+    <script type="text/javascript" src="public/javascripts/jquery.js"></script>
     <script type="text/javascript">
         <!--
         var termsOfServiceLoaded = false;
@@ -108,7 +113,7 @@
                     var divName = 'div#' + $(this).attr("id").replace("link", "");
 
                     if (!termsOfServiceLoaded && (divName == "div#termsofservice")) {
-                    $('div#termsofservicecontents').load('termsofservice.html', function() {
+                    $('div#termsofservicecontents').load('public/termsofservice.html', function() {
                         $('<strong><%= @brand_name %></strong>').replaceAll("div#termsofservicecontents strong");
                         $('<a href="<%= @brand_url %>"><strong><%= @brand_name %></strong></a>').replaceAll("div#termsofservicecontents a");
                         termsOfServiceLoaded = true;
@@ -116,7 +121,7 @@
                         });
                     }
                     else if (!privacyLoaded && (divName == "div#privacy")) {
-                    $('div#privacycontents').load('privacy.html', function() {
+                    $('div#privacycontents').load('public/privacy.html', function() {
                         $('<strong><%= @brand_name %></strong>').replaceAll("div#privacycontents strong");
                         privacyLoaded = true;
                         $(divName).fadeIn();

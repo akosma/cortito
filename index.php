@@ -30,7 +30,7 @@ ini_set('display_errors', 1);
 error_reporting(-1);
 error_reporting(E_ALL|E_STRICT);
 
-require 'Slim/Slim.php';
+require 'lib/Slim/Slim.php';
 require 'lib/helpers.php';
 
 \Slim\Slim::registerAutoloader();
@@ -44,7 +44,8 @@ $root = function () use ($app) {
     $app->render('root.php',
         array(
             'host' => $host,
-            'brandName' => $config->getBrandName()
+            'brand_name' => $config->getBrandName(),
+            'cortito_version' => '2.0'
         )
     );
 };
