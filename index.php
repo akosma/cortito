@@ -42,19 +42,30 @@ $app = new \Slim\Slim(array(
 $host = $app->request->getUrl();
 $config = new Config;
 
-$render = function ($subtemplate = "form.php") use ($app, $host, $config) {
-    $app->render('root.php',
-        array(
-            'host' => $host,
-            'brand_name' => $config->getBrandName(),
-            'brand_url' => $config->getBrandUrl(),
-            'cortito_version' => '2.0',
-            'subtemplate' => $subtemplate
-        )
-    );
+$render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $config) {
+    // Decide on the type of answer, depending on the request
+    $req = $app->request->headers()->get('ACCEPT');
+    if ($req == 'application/javascript' || $req == 'text/xml') {
+        // API call
+        http_response_code($code);
+        echo($subtemplate);
+        $app->stop();
+    }
+    else {
+        // Normal browser
+        $app->render('root.php',
+            array(
+                'host' => $host,
+                'brand_name' => $config->getBrandName(),
+                'brand_url' => $config->getBrandUrl(),
+                'cortito_version' => '2.0',
+                'subtemplate' => $subtemplate
+            )
+        );
+    }
 };
 
-$show_url = function ($original, $shortened) use ($app, $host, $config) {
+$render_with_url = function ($original, $shortened) use ($app, $host, $config) {
     $short_url = "$host/$shortened";
     $short_url_sanitized = urlencode($short_url);
     $newline = "%0D%0A";
@@ -95,7 +106,7 @@ $redirect = function ($shortened) use ($app) {
     }
 };
 
-$shorten = function () use ($app, $render, $config, $host, $show_url) {
+$shorten = function () use ($app, $render, $config, $host, $render_with_url) {
     $url = $app->request->params('url');
     if (isset($url)) {
         $max_length = $config->getMaxShortLength();
@@ -106,7 +117,7 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
         if (isset($short)) {
             $short = urlencode(strtolower($short));
             if (strlen($short) > $max_length) {
-                $render("invalid.php");
+                $render("invalid.php", 422);
                 $app->stop();
             }
         }
@@ -129,27 +140,20 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
 
         // Let's make sure the length of the input URL is bigger than zero
         if (strlen($url) == 0) {
-            $render("invalid.php");
+            $render("invalid.php", 422);
             $app->stop();
         }
 
         // Let's hope the user is not shortening URLs with wrong protocols
         if (!(starts_with($url, "http://") || starts_with($url, "https://") || starts_with($url, "ftp://"))) {
-            $render("invalid.php");
-            $app->stop();
-        }
-
-        // Let's figure out if the URL has not been shortened already
-        $row = find_by_original($url);
-        if (isset($row)) {
-            $render("invalid.php");
+            $render("invalid.php", 422);
             $app->stop();
         }
 
         // Also, let's make sure that the end result will be shorter than the
         // original URL - otherwise, what's the point in shortening it!
         if (strlen($url) < strlen("$host") + 1 + $max_length) {
-            $render("short.php");
+            $render("short.php", 422);
             $app->stop();
         }
 
@@ -157,13 +161,31 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
         // URL shortener
         $exclusions = $config->getExcludedUrlShorteners();
         if (is_shortener($url, $exclusions)) {
-            $render("invalid.php");
+            $render("invalid.php", 422);
             $app->stop();
         }
 
-        // If we arrive here, everything is OK; insert and display!
-        insert_url($url, $short);
-        $show_url($url, $short);
+        // Let's figure out if the URL has not been shortened already
+        $row = find_by_original($url);
+        if (isset($row)) {
+            $short = $row["shortened"];
+        }
+        else {
+            // If we arrive here, everything is OK; insert and display!
+            insert_url($url, $short);
+        }
+
+        // Decide on the type of answer, depending on the request
+        $req = $app->request->headers()->get('ACCEPT');
+        if ($req == 'application/javascript' || $req == 'text/xml') {
+            // API call
+            echo($short);
+            $app->stop();
+        }
+        else {
+            // Normal browser
+            $render_with_url($url, $short);
+        }
     }
     else {
         // Simply render the home page
@@ -171,14 +193,25 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
     }
 };
 
-$reverse = function ($shortened) use ($show_url, $render, $host) {
+$reverse = function ($shortened) use ($render_with_url, $render, $host, $app) {
     $row = find_by_shortened($shortened);
     if (isset($row)) {
         $original = $row["original"];
-        $show_url($original, $shortened);
+
+        // Decide on the type of answer, depending on the request
+        $req = $app->request->headers()->get('ACCEPT');
+        if ($req == 'application/javascript' || $req == 'text/xml') {
+            // API call
+            echo($original);
+            $app->stop();
+        }
+        else {
+            // Normal browser
+            $render_with_url($original, $shortened);
+        }
     }
     else {
-        $render("not_found.php");
+        $render("not_found.php", 404);
     }
 };
 
