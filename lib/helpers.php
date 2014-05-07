@@ -140,8 +140,8 @@ function to_attr($attributes = array()) {
 function starts_with($haystack, $needle) {
     // Adapted from
     // http://stackoverflow.com/a/834355/133764
-     $length = strlen($needle);
-     return (substr($haystack, 0, $length) === $needle);
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
 }
 
 function ends_with($haystack, $needle) {
