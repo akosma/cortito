@@ -10,6 +10,11 @@ License
 The code is shipped with a BSD license. See the LICENSE.txt file for
 details.
 
+Requirements
+------------
+
+This application requires PHP 5.5 or higher, and a MySQL database.
+
 Installation
 ------------
 
