@@ -1,7 +1,7 @@
 Welcome
 =======
 
-This project is the URL shortener Rails application running at
+This project is the URL shortener PHP application running at
 http://akos.ma. Feel free to use the code in your own server!
 
 License
@@ -13,9 +13,9 @@ details.
 Installation
 ------------
 
-As any other Rails application:
+As any other PHP application:
 
-1.  Modify config/database.yml to your own settings;
-2.  Run rake db:migrate to generate the tables;
-3.  Start the application as you normally would.
+1.  Create a MySQL database and execute `schema.sql` in it;
+2.  Modify `config/app.ini` with your own settings;
+3.  Navigate your browser to the application.
 

@@ -1,3 +1,5 @@
+<?php
+/*
 Copyright (c) 2009-2014, Adrian Kosmaczewski
 All rights reserved.
 
@@ -21,4 +23,43 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+class Config
+{
+    var $server;
+    var $user;
+    var $password;
+    var $database;
+    var $ini_file;
+
+    function Config()
+    {
+        $ini_file = parse_ini_file("config/app.ini", true);
+        $this->server = $ini_file["database"]["host"];
+        $this->database = $ini_file["database"]["database"];
+        $this->username = $ini_file["database"]["username"];
+        $this->password = $ini_file["database"]["password"];
+    }
+
+    function getServer()
+    {
+        return $this->server;
+    }
+
+    function getDatabase()
+    {
+        return $this->database;
+    }
+
+    function getUsername()
+    {
+        return $this->username;
+    }
+
+    function getPassword()
+    {
+        return $this->password;
+    }
+}
 

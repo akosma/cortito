@@ -1,3 +1,5 @@
+<?php
+/*
 Copyright (c) 2009-2014, Adrian Kosmaczewski
 All rights reserved.
 
@@ -21,4 +23,40 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+error_reporting(E_ALL|E_STRICT);
+
+require 'Slim/Slim.php';
+require 'lib/helpers.php';
+
+\Slim\Slim::registerAutoloader();
+$app = new \Slim\Slim();
+
+$root = function () {
+    echo ('root');
+};
+
+$redirect = function ($shortened) use ($app) {
+    $original = find_original_url($shortened);
+    if($original != null)
+    {
+        $app->redirect($original);
+    }
+    else
+    {
+        $app->redirect('/');
+    }
+};
+
+$shorten = function () {};
+
+$app->get('/:shortened', $redirect);
+$app->get('/', $root);
+$app->post('/', $shorten);
+
+$app->run();
 
