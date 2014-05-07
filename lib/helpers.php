@@ -28,8 +28,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require 'database.php';
 require 'config.php';
 
-function find_original_url($shortened)
-{
+function find_by($shortened) {
     $config = new Config;
     $server = $config->getServer();
     $database = $config->getDatabase();
@@ -43,7 +42,81 @@ function find_original_url($shortened)
         mysqli_real_escape_string($conn, $shortened));
     $rs = execute($query, $server, $database, $username, $password);
     $row = $rs->next();
-    $original = $row["original"];
-    return $original;
+    return $row;
+}
+
+function generate_random_string($length = 6) {
+    // Adapted from
+    // http://stackoverflow.com/a/4356295/133764
+    $characters = 'abcdefghijklmnopqrstuvwxyz1234567890_';
+    $randomString = '';
+    $len = mt_rand(1, $length);
+    for ($i = 0; $i < $len; $i++) {
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $randomString;
+}
+
+function insert_url($original, $shortened) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = mysqli_connect($server, $username, $password, $database)
+        or trigger_error(mysqli_error(), E_USER_ERROR);
+
+    $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
+        mysqli_real_escape_string($conn, $original),
+        mysqli_real_escape_string($conn, $original));
+    $results = mysqli_query($conn, $query) or die(mysql_error());
+}
+
+function update_count($id, $count) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = mysqli_connect($server, $username, $password, $database)
+        or trigger_error(mysqli_error(), E_USER_ERROR);
+
+    $query = "UPDATE items SET count = $count WHERE id = $id";
+    $results = mysqli_query($conn, $query) or die(mysql_error());
+}
+
+function is_already_shortened($original) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = mysqli_connect($server, $username, $password, $database)
+        or trigger_error(mysqli_error(), E_USER_ERROR);
+}
+
+function link_to($text, $href, $options = array()) {
+    // Adapted from
+    // https://github.com/l3ck/php-helpers/blob/master/link_to.php
+
+    return "<a href=\"$href\" " . to_attr($options) . ">$text</a>";
+}
+
+function to_attr($attributes = array()) {
+    // Adapted from
+    // https://github.com/l3ck/php-helpers/blob/master/to_attr.php
+    if (empty($attributes)) {
+        return '';
+    }
+    $attr_return = array();
+
+    foreach ($attributes as $key => $value) {
+        array_push($attr_return, "$key=\"$value\"");
+    }
+
+    return implode(' ', $attr_return);
 }
 

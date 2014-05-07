@@ -1,18 +1,5 @@
     def shorten
 
-        if params.has_key?(:reverse)
-            reverse = params[:reverse]
-
-            if reverse.length == 0
-                render_error "items/invalid"
-                return
-            end
-
-            @item = Item.find_by_shortened(reverse)
-            if not @item
-                render_error "items/not_found"
-                return
-            end
         else
             url = params[:url]
             short = nil

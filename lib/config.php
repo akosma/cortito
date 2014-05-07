@@ -27,52 +27,46 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 class Config
 {
-    var $server;
-    var $user;
-    var $password;
-    var $database;
-    var $ini_file;
-    var $brand_name;
+    var $ini;
 
     function Config()
     {
-        $ini_file = parse_ini_file("config/app.ini", true);
-        $this->server = $ini_file["database"]["host"];
-        $this->database = $ini_file["database"]["database"];
-        $this->username = $ini_file["database"]["username"];
-        $this->password = $ini_file["database"]["password"];
-        $this->brand_name = $ini_file["branding"]["name"];
-        $this->brand_url = $ini_file["branding"]["url"];
+        $this->ini = parse_ini_file("config/app.ini", true);
     }
 
     function getServer()
     {
-        return $this->server;
+        return $this->ini["database"]["host"];
     }
 
     function getDatabase()
     {
-        return $this->database;
+        return $this->ini["database"]["database"];
     }
 
     function getUsername()
     {
-        return $this->username;
+        return $this->ini["database"]["username"];
     }
 
     function getPassword()
     {
-        return $this->password;
+        return $this->ini["database"]["password"];
     }
 
     function getBrandName()
     {
-        return $this->brand_name;
+        return $this->ini["branding"]["name"];
     }
 
     function getBrandUrl()
     {
-        return $this->brand_url;
+        return $this->ini["branding"]["url"];
+    }
+
+    function getMaxShortLength()
+    {
+        return $this->ini["other"]["max_short_length"];
     }
 }
 

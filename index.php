@@ -38,27 +38,37 @@ $app = new \Slim\Slim(array(
     'templates.path' => './templates'
 ));
 
-$root = function () use ($app) {
-    $host = $_SERVER['SERVER_NAME'];
-    $config = new Config;
+// Global objects
+$host = $app->request->getHost();
+$config = new Config;
+
+$render = function ($subtemplate = "form.php") use ($app, $host, $config) {
     $app->render('root.php',
         array(
             'host' => $host,
             'brand_name' => $config->getBrandName(),
+            'brand_url' => $config->getBrandUrl(),
             'cortito_version' => '2.0',
-            'subtemplate' => 'form.php'
+            'subtemplate' => $subtemplate
         )
     );
 };
 
+$root = function () use ($render) {
+    $render();
+};
+
 $redirect = function ($shortened) use ($app) {
-    $original = find_original_url($shortened);
-    if($original != null)
-    {
+    $row = find_by($shortened);
+    if(isset($row)) {
+        $id = $row["id"];
+        $count = $row["count"];
+        update_count($id, $count + 1);
+
+        $original = $row["original"];
         $app->redirect($original);
     }
-    else
-    {
+    else {
         $app->redirect('/');
     }
 };
@@ -67,7 +77,45 @@ $shorten = function () {
 
 };
 
+$reverse = function ($reversed) use ($app, $host, $config, $render) {
+    if (strlen($reversed) == 0) {
+        $render("invalid.php");
+    }
+    else {
+        $row = find_by($reversed);
+        if (isset($row)) {
+            $short_url = "http://$host/$reversed";
+            $short_url_sanitized = urlencode($short_url);
+            $newline = "%0D%0A";
+            $app->render('root.php',
+                array(
+                    'host' => $host,
+                    'brand_name' => $config->getBrandName(),
+                    'brand_url' => $config->getBrandUrl(),
+                    'cortito_version' => '2.0',
+                    'subtemplate' => 'show.php',
+                    'short_url' => "http://$host/$reversed",
+                    'original' => $row["original"],
+                    'twitter_web_url' => "http://twitter.com/home?status=$short_url_sanitized",
+                    'email_url' => "mailto:?subject=Check%20out%20this%20URL" .
+                                    "&body=$short_url_sanitized$newline$newline" .
+                                    "Shortened%20by%20cortito%20http://$host/$newline",
+                    'echofon_url' => "echofon:$short_url_sanitized",
+                    'twitterrific_url' => "twitterrific:///post?message=$short_url_sanitized",
+                    'twitter_app_url' => "twitter://post?message=$short_url_sanitized",
+                    'twittelator_url' => "twit:///post?message=$short_url_sanitized",
+                    'tweetbot_url' => "tweetbot:///post?text=$short_url_sanitized"
+                )
+            );
+        }
+        else {
+            $render("not_found.php");
+        }
+    }
+};
+
 $app->get('/:shortened', $redirect);
+$app->get('/reverse/:reversed', $reverse);
 $app->get('/', $root);
 $app->post('/', $shorten);
 
