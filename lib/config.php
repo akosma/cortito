@@ -68,5 +68,11 @@ class Config
     {
         return $this->ini["other"]["max_short_length"];
     }
+
+    function getExcludedUrlShorteners()
+    {
+        $exclusions = $this->ini["other"]["excluded_url_shorteners"];
+        return explode(',', $exclusions);
+    }
 }
 

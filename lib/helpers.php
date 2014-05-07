@@ -155,3 +155,12 @@ function ends_with($haystack, $needle) {
     return (substr($haystack, -$length) === $needle);
 }
 
+function is_shortener($url, $exclusions) {
+    foreach ($exclusions as $exclusion) {
+        if (starts_with($url, $exclusion)) {
+            return true;
+        }
+    }
+    return false;
+}
+

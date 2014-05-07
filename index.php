@@ -80,9 +80,6 @@ $show_url = function ($original, $shortened) use ($app, $host, $config) {
     );
 };
 
-$root = function () use ($render) {
-};
-
 $redirect = function ($shortened) use ($app) {
     $row = find_by_shortened($shortened);
     if(isset($row)) {
@@ -102,6 +99,9 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
     $url = $app->request->params('url');
     if (isset($url)) {
         $max_length = $config->getMaxShortLength();
+
+        // Check whether we have a 'short' parameter, with a
+        // suggestion by the user for a suitable shortcode
         $short = $app->request->params('short');
         if (isset($short)) {
             $short = urlencode(strtolower($short));
@@ -113,29 +113,55 @@ $shorten = function () use ($app, $render, $config, $host, $show_url) {
         else {
             $short = generate_random_string($max_length);
         }
-        while ($row = find_by_shortened($short));
+
+        // Let's make sure the shortcode is not used already
+        $row = find_by_shortened($short);
+        if (isset($row))
         {
             // If the shortening code is already used, generate a new one until
             // we have a winner!
-            $short = generate_random_string($max_length);
+            while (isset($row))
+            {
+                $short = generate_random_string($max_length);
+                $row = find_by_shortened($short);
+            }
         }
+
+        // Let's make sure the length of the input URL is bigger than zero
         if (strlen($url) == 0) {
             $render("invalid.php");
             $app->stop();
         }
+
+        // Let's hope the user is not shortening URLs with wrong protocols
         if (!(starts_with($url, "http://") || starts_with($url, "https://") || starts_with($url, "ftp://"))) {
             $render("invalid.php");
             $app->stop();
         }
+
+        // Let's figure out if the URL has not been shortened already
         $row = find_by_original($url);
         if (isset($row)) {
             $render("invalid.php");
             $app->stop();
         }
+
+        // Also, let's make sure that the end result will be shorter than the
+        // original URL - otherwise, what's the point in shortening it!
         if (strlen($url) < strlen("$host") + 1 + $max_length) {
             $render("short.php");
             $app->stop();
         }
+
+        // Finally, make sure that the URL is not already shortened by another
+        // URL shortener
+        $exclusions = $config->getExcludedUrlShorteners();
+        if (is_shortener($url, $exclusions)) {
+            $render("invalid.php");
+            $app->stop();
+        }
+
+        // If we arrive here, everything is OK; insert and display!
         insert_url($url, $short);
         $show_url($url, $short);
     }
