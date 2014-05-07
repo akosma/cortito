@@ -1,4 +1,0 @@
-* hash MD5 o SHA1 del URL for search (shorter field, smaller index in db);
-* block URLs of e-mail, javascript, etc, type... if it doesn't start with http:// o https:// don't do anything;
-* there is a bug where an empty hash would be generated and stored in the db;
-* deployment with capistrano?
