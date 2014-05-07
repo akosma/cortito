@@ -44,14 +44,14 @@ else
         <div class="thickline"></div>
 
         <div id="main">
-            <%= yield %>
+            <?php include($this->data["subtemplate"]); ?>
         </div>
 
         <div class="thickline"></div>
 
         <!-- Bookmarklet -->
 
-        <div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p> 
+        <div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p>
             <p class="contents">For your browser: <%= link_to "shorten with " + @host, "javascript:location.href='http://" + @host + "/?url='+encodeURIComponent(location.href);" %></p>
             <p class="contents">(drag and drop on your bookmark toolbar)</p>
         </div>

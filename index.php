@@ -45,7 +45,8 @@ $root = function () use ($app) {
         array(
             'host' => $host,
             'brand_name' => $config->getBrandName(),
-            'cortito_version' => '2.0'
+            'cortito_version' => '2.0',
+            'subtemplate' => 'form.php'
         )
     );
 };
@@ -62,7 +63,9 @@ $redirect = function ($shortened) use ($app) {
     }
 };
 
-$shorten = function () {};
+$shorten = function () {
+
+};
 
 $app->get('/:shortened', $redirect);
 $app->get('/', $root);
