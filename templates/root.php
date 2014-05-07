@@ -1,7 +1,8 @@
 <?php
 $short_url = $this->data["short_url"];
 $host = $this->data["host"];
-$domain = parse_url($host)["host"];
+$parsed = parse_url($host);
+$domain = $parsed["host"];
 $brand_name = $this->data["brand_name"];
 $brand_url = $this->data["brand_url"];
 $cortito_version = $this->data['cortito_version'];
