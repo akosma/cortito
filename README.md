@@ -1,8 +1,12 @@
-Welcome
+Cortito
 =======
 
 This project is the URL shortener PHP application running at
 http://akos.ma. Feel free to use the code in your own server!
+
+This application used to be a Ruby on Rails application, but it has been
+translated to work with PHP, using the [Slim
+Framework](http://www.slimframework.com).
 
 License
 -------
