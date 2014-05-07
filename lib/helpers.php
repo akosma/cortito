@@ -28,7 +28,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require 'database.php';
 require 'config.php';
 
-function find_by($shortened) {
+function find_by_shortened($shortened) {
     $config = new Config;
     $server = $config->getServer();
     $database = $config->getDatabase();
@@ -40,6 +40,23 @@ function find_by($shortened) {
 
     $query = sprintf("SELECT * FROM items WHERE shortened = '%s'",
         mysqli_real_escape_string($conn, $shortened));
+    $rs = execute($query, $server, $database, $username, $password);
+    $row = $rs->next();
+    return $row;
+}
+
+function find_by_original($original) {
+    $config = new Config;
+    $server = $config->getServer();
+    $database = $config->getDatabase();
+    $username = $config->getUsername();
+    $password = $config->getPassword();
+
+    $conn = mysqli_connect($server, $username, $password, $database)
+        or trigger_error(mysqli_error(), E_USER_ERROR);
+
+    $query = sprintf("SELECT * FROM items WHERE original = '%s'",
+        mysqli_real_escape_string($conn, $original));
     $rs = execute($query, $server, $database, $username, $password);
     $row = $rs->next();
     return $row;
@@ -69,7 +86,7 @@ function insert_url($original, $shortened) {
 
     $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
         mysqli_real_escape_string($conn, $original),
-        mysqli_real_escape_string($conn, $original));
+        mysqli_real_escape_string($conn, $shortened));
     $results = mysqli_query($conn, $query) or die(mysql_error());
 }
 
@@ -118,5 +135,23 @@ function to_attr($attributes = array()) {
     }
 
     return implode(' ', $attr_return);
+}
+
+function starts_with($haystack, $needle) {
+    // Adapted from
+    // http://stackoverflow.com/a/834355/133764
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function ends_with($haystack, $needle) {
+    // Adapted from
+    // http://stackoverflow.com/a/834355/133764
+    $length = strlen($needle);
+    if ($length == 0) {
+        return true;
+    }
+
+    return (substr($haystack, -$length) === $needle);
 }
 

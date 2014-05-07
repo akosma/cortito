@@ -1,6 +1,7 @@
 <?php
 $short_url = $this->data["short_url"];
 $host = $this->data["host"];
+$domain = parse_url($host)["host"];
 $brand_name = $this->data["brand_name"];
 $brand_url = $this->data["brand_url"];
 $cortito_version = $this->data['cortito_version'];
@@ -11,7 +12,7 @@ $subtemplate = $this->data["subtemplate"];
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title><?= $host ?> - URL shortener by <?= $brand_name ?></title>
+<title><?= $domain ?> - URL shortener by <?= $brand_name ?></title>
 <link href="/public/stylesheets/cortito.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -44,7 +45,7 @@ if (isset($short_url))
 }
 else
 {
-    echo ($host);
+    echo ($domain);
 }
 ?></span>
         </div>
@@ -59,7 +60,7 @@ else
         <!-- Bookmarklet -->
 
         <div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p>
-            <p class="contents">For your browser: <?= link_to("shorten with $host", "javascript:location.href='http://$host/?url='+encodeURIComponent(location.href);") ?></p>
+            <p class="contents">For your browser: <?= link_to("shorten with $domain", "javascript:location.href='$host/?url='+encodeURIComponent(location.href);") ?></p>
             <p class="contents">(drag and drop on your bookmark toolbar)</p>
         </div>
 
@@ -70,13 +71,13 @@ else
 
             <p class="contents">Send a POST or GET request to <span class="sample"><?= $host ?></span> with a "url" parameter, with either an "Accept: application/javascript" or "Accept: text/xml" header. You'll get a simple text response with the shortened URL:</p>
 
-            <div class="sample">$ curl --request GET --header "Accept: application/javascript" http://<?= $host ?>/\?url=http://shop.oreilly.com/product/0636920026877.do<br />
-http://<?= $host ?>/st2ur<br />
+            <div class="sample">$ curl --request GET --header "Accept: application/javascript" <?= $host ?>/\?url=http://shop.oreilly.com/product/0636920026877.do<br />
+<?= $host ?>/st2ur<br />
 $ _</div>
 
             <p class="contents">You can also use the "reverse" parameter with the shortened key (not the whole URL, just the key) and you'll get the original URL in return:</p>
 
-            <div class="sample">$ curl --request GET --header "Accept: text/xml" http://<?= $host ?>/reverse/st2ur<br />
+            <div class="sample">$ curl --request GET --header "Accept: text/xml" <?= $host ?>/reverse/st2ur<br />
 http://shop.oreilly.com/product/0636920026877.do<br />
 $ _</div>
         </div>
