@@ -15,7 +15,7 @@ Installation
 
 As any other PHP application:
 
-1.  Create a MySQL database and execute `schema.sql` in it;
+1.  Create a MySQL database and execute `db/schema.sql` in it;
 2.  Modify `config/app.ini` with your own settings;
 3.  Navigate your browser to the application.
 

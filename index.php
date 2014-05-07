@@ -34,10 +34,19 @@ require 'Slim/Slim.php';
 require 'lib/helpers.php';
 
 \Slim\Slim::registerAutoloader();
-$app = new \Slim\Slim();
+$app = new \Slim\Slim(array(
+    'templates.path' => './templates'
+));
 
-$root = function () {
-    echo ('root');
+$root = function () use ($app) {
+    $host = $_SERVER['SERVER_NAME'];
+    $config = new Config;
+    $app->render('root.php',
+        array(
+            'host' => $host,
+            'brandName' => $config->getBrandName()
+        )
+    );
 };
 
 $redirect = function ($shortened) use ($app) {

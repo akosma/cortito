@@ -32,6 +32,7 @@ class Config
     var $password;
     var $database;
     var $ini_file;
+    var $brand_name;
 
     function Config()
     {
@@ -40,6 +41,8 @@ class Config
         $this->database = $ini_file["database"]["database"];
         $this->username = $ini_file["database"]["username"];
         $this->password = $ini_file["database"]["password"];
+        $this->brand_name = $ini_file["branding"]["name"];
+        $this->brand_url = $ini_file["branding"]["url"];
     }
 
     function getServer()
@@ -60,6 +63,16 @@ class Config
     function getPassword()
     {
         return $this->password;
+    }
+
+    function getBrandName()
+    {
+        return $this->brand_name;
+    }
+
+    function getBrandUrl()
+    {
+        return $this->brand_url;
     }
 }
 
