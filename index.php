@@ -61,7 +61,7 @@ $render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $c
                 'domain' => $domain,
                 'brand_name' => $config->getBrandName(),
                 'brand_url' => $config->getBrandUrl(),
-                'cortito_version' => '2.0',
+                'cortito_version' => '2.1',
                 'subtemplate' => $subtemplate,
                 'helper' => $helper
             )
@@ -79,7 +79,7 @@ $render_with_url = function ($original, $shortened) use ($app, $host, $config, $
             'domain' => $domain,
             'brand_name' => $config->getBrandName(),
             'brand_url' => $config->getBrandUrl(),
-            'cortito_version' => '2.0',
+            'cortito_version' => '2.1',
             'subtemplate' => 'show.php',
             'helper' => $helper,
             'shortened' => $shortened,
