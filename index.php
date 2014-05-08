@@ -42,8 +42,9 @@ $app = new \Slim\Slim(array(
 $host = $app->request->getUrl();
 $domain = $app->request->getHost();
 $config = new Config;
+$helper = new Helper;
 
-$render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $config, $domain) {
+$render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $config, $domain, $helper) {
     // Decide on the type of answer, depending on the request
     $req = $app->request->headers()->get('ACCEPT');
     if ($req == 'application/javascript' || $req == 'text/xml') {
@@ -61,13 +62,14 @@ $render = function ($subtemplate = "form.php", $code = 200) use ($app, $host, $c
                 'brand_name' => $config->getBrandName(),
                 'brand_url' => $config->getBrandUrl(),
                 'cortito_version' => '2.0',
-                'subtemplate' => $subtemplate
+                'subtemplate' => $subtemplate,
+                'helper' => $helper
             )
         );
     }
 };
 
-$render_with_url = function ($original, $shortened) use ($app, $host, $config, $domain) {
+$render_with_url = function ($original, $shortened) use ($app, $host, $config, $domain, $helper) {
     $short_url = "$host/$shortened";
     $short_url_sanitized = urlencode($short_url);
     $newline = "%0D%0A";
@@ -79,6 +81,7 @@ $render_with_url = function ($original, $shortened) use ($app, $host, $config, $
             'brand_url' => $config->getBrandUrl(),
             'cortito_version' => '2.0',
             'subtemplate' => 'show.php',
+            'helper' => $helper,
             'shortened' => $shortened,
             'short_url' => $short_url,
             'original' => $original,
@@ -95,7 +98,7 @@ $render_with_url = function ($original, $shortened) use ($app, $host, $config, $
     );
 };
 
-$is_valid = function ($url) use ($config, $host) {
+$is_valid = function ($url) use ($config, $host, $helper) {
     $max_length = $config->getMaxShortLength();
 
     // Let's make sure the length of the input URL is bigger than zero
@@ -104,7 +107,7 @@ $is_valid = function ($url) use ($config, $host) {
     }
 
     // Let's hope the user is not shortening URLs with wrong protocols
-    if (!(starts_with($url, "http://") || starts_with($url, "https://") || starts_with($url, "ftp://"))) {
+    if (!($helper->starts_with($url, "http://") || $helper->starts_with($url, "https://") || $helper->starts_with($url, "ftp://"))) {
         return false;
     }
 
@@ -124,12 +127,12 @@ $is_valid = function ($url) use ($config, $host) {
     return true;
 };
 
-$redirect = function ($shortened) use ($app) {
-    $row = find_by_shortened($shortened);
+$redirect = function ($shortened) use ($app, $helper) {
+    $row = $helper->find_by_shortened($shortened);
     if(isset($row)) {
         $id = $row["id"];
         $count = $row["count"];
-        update_count($id, $count + 1);
+        $helper->update_count($id, $count + 1);
 
         $original = $row["original"];
         $app->redirect($original);
@@ -139,7 +142,7 @@ $redirect = function ($shortened) use ($app) {
     }
 };
 
-$shorten = function () use ($app, $render, $config, $render_with_url, $is_valid) {
+$shorten = function () use ($app, $render, $config, $render_with_url, $is_valid, $helper) {
     $url = $app->request->params('url');
     if (isset($url)) {
         $max_length = $config->getMaxShortLength();
@@ -155,30 +158,30 @@ $shorten = function () use ($app, $render, $config, $render_with_url, $is_valid)
             }
         }
         else {
-            $short = generate_random_string($max_length);
+            $short = $helper->generate_random_string($max_length);
         }
 
         // Let's make sure the shortcode is not used already
-        $row = find_by_shortened($short);
+        $row = $helper->find_by_shortened($short);
         if (isset($row)) {
             // If the shortening code is already used, generate a new one until
             // we have a winner!
             while (isset($row)) {
-                $short = generate_random_string($max_length);
-                $row = find_by_shortened($short);
+                $short = $helper->generate_random_string($max_length);
+                $row = $helper->find_by_shortened($short);
             }
         }
 
         // Let's make sure the length of the input URL is bigger than zero
         if ($is_valid($url)) {
             // Let's figure out if the URL has not been shortened already
-            $row = find_by_original($url);
+            $row = $helper->find_by_original($url);
             if (isset($row)) {
                 $short = $row["shortened"];
             }
             else {
                 // If we arrive here, everything is OK; insert and display!
-                insert_url($url, $short);
+                $helper->insert_url($url, $short);
             }
 
             // Decide on the type of answer, depending on the request
@@ -203,8 +206,8 @@ $shorten = function () use ($app, $render, $config, $render_with_url, $is_valid)
     }
 };
 
-$reverse = function ($shortened) use ($render_with_url, $render, $app) {
-    $row = find_by_shortened($shortened);
+$reverse = function ($shortened) use ($render_with_url, $render, $app, $helper) {
+    $row = $helper->find_by_shortened($shortened);
     if (isset($row)) {
         $original = $row["original"];
 

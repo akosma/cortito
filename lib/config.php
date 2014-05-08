@@ -66,7 +66,7 @@ class Config {
     }
 
     function getRandomStringCharacters() {
-        return $this->ini["other"]["random_string_caracters"];
+        return $this->ini["other"]["random_string_characters"];
     }
 }
 

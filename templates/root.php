@@ -7,6 +7,7 @@ $brand_name = $this->data["brand_name"];
 $brand_url = $this->data["brand_url"];
 $cortito_version = $this->data['cortito_version'];
 $subtemplate = $this->data["subtemplate"];
+$helper = $this->data["helper"];
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -60,7 +61,7 @@ else
         <!-- Bookmarklet -->
 
         <div class="instructionsection documentation" id="bookmarklet"><p class="title">Bookmarklet</p>
-            <p class="contents">For your browser: <?= link_to("shorten with $domain", "javascript:location.href='$host/?url='+encodeURIComponent(location.href);") ?></p>
+            <p class="contents">For your browser: <?= $helper->link_to("shorten with $domain", "javascript:location.href='$host/?url='+encodeURIComponent(location.href);") ?></p>
             <p class="contents">(drag and drop on your bookmark toolbar)</p>
         </div>
 

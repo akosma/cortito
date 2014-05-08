@@ -28,112 +28,102 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require 'database.php';
 require 'config.php';
 
-function find_by_shortened($shortened) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
+class Helper {
+    var $config;
+    var $conn;
 
-    $conn = new Connection($server, $database, $username, $password);
-    $query = sprintf("SELECT * FROM items WHERE shortened = '%s'",
-        $conn->escape($shortened));
-    $recordset = $conn->read($query);
-    $row = $recordset->next();
-    return $row;
-}
-
-function find_by_original($original) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = new Connection($server, $database, $username, $password);
-    $query = sprintf("SELECT * FROM items WHERE original = '%s'",
-        $conn->escape($original));
-    $recordset = $conn->read($query);
-    $row = $recordset->next();
-    return $row;
-}
-
-function insert_url($original, $shortened) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = new Connection($server, $database, $username, $password);
-    $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
-        $conn->escape($original),
-        $conn->escape($shortened));
-    $conn->write($query);
-}
-
-function update_count($id, $count) {
-    $config = new Config;
-    $server = $config->getServer();
-    $database = $config->getDatabase();
-    $username = $config->getUsername();
-    $password = $config->getPassword();
-
-    $conn = new Connection($server, $database, $username, $password);
-    $query = "UPDATE items SET count = $count WHERE id = $id";
-    $conn->write($query);
-}
-
-function generate_random_string($length = 6) {
-    // Adapted from
-    // http://stackoverflow.com/a/4356295/133764
-    $config = new Config;
-    $characters = $config->getRandomStringCharacters();
-    $randomString = '';
-    $len = mt_rand(1, $length);
-    for ($i = 0; $i < $len; $i++) {
-        $randomString .= $characters[rand(0, strlen($characters) - 1)];
-    }
-    return $randomString;
-}
-
-function link_to($text, $href, $options = array()) {
-    // Adapted from
-    // https://github.com/l3ck/php-helpers/blob/master/link_to.php
-
-    return "<a href=\"$href\" " . to_attr($options) . ">$text</a>";
-}
-
-function to_attr($attributes = array()) {
-    // Adapted from
-    // https://github.com/l3ck/php-helpers/blob/master/to_attr.php
-    if (empty($attributes)) {
-        return '';
-    }
-    $attr_return = array();
-
-    foreach ($attributes as $key => $value) {
-        array_push($attr_return, "$key=\"$value\"");
+    function __construct() {
+        $this->config = new Config;
+        $server = $this->config->getServer();
+        $database = $this->config->getDatabase();
+        $username = $this->config->getUsername();
+        $password = $this->config->getPassword();
+        $this->conn = new Connection($server, $database, $username, $password);
     }
 
-    return implode(' ', $attr_return);
-}
-
-function starts_with($haystack, $needle) {
-    // Adapted from
-    // http://stackoverflow.com/a/834355/133764
-    $length = strlen($needle);
-    return (substr($haystack, 0, $length) === $needle);
-}
-
-function ends_with($haystack, $needle) {
-    // Adapted from
-    // http://stackoverflow.com/a/834355/133764
-    $length = strlen($needle);
-    if ($length == 0) {
-        return true;
+    function __destruct() {
+        $this->config = null;
+        $this->conn = null;
     }
 
-    return (substr($haystack, -$length) === $needle);
+    function find_by_shortened($shortened) {
+        $query = sprintf("SELECT * FROM items WHERE shortened = '%s'",
+            $this->conn->escape($shortened));
+        $recordset = $this->conn->read($query);
+        $row = $recordset->next();
+        return $row;
+    }
+
+    function find_by_original($original) {
+        $query = sprintf("SELECT * FROM items WHERE original = '%s'",
+            $this->conn->escape($original));
+        $recordset = $this->conn->read($query);
+        $row = $recordset->next();
+        return $row;
+    }
+
+    function insert_url($original, $shortened) {
+        $query = sprintf("INSERT INTO items (original, shortened) VALUES ('%s', '%s')",
+            $this->conn->escape($original),
+            $this->conn->escape($shortened));
+        $this->conn->write($query);
+    }
+
+    function update_count($id, $count) {
+        $query = "UPDATE items SET count = $count WHERE id = $id";
+        $this->conn->write($query);
+    }
+
+    function generate_random_string($length = 6) {
+        // Adapted from
+        // http://stackoverflow.com/a/4356295/133764
+        $characters = $this->config->getRandomStringCharacters();
+        $randomString = '';
+        $len = mt_rand(1, $length);
+        for ($i = 0; $i < $len; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+
+    function link_to($text, $href, $options = array()) {
+        // Adapted from
+        // https://github.com/l3ck/php-helpers/blob/master/link_to.php
+
+        return "<a href=\"$href\" " . $this->to_attr($options) . ">$text</a>";
+    }
+
+    function to_attr($attributes = array()) {
+        // Adapted from
+        // https://github.com/l3ck/php-helpers/blob/master/to_attr.php
+        if (empty($attributes)) {
+            return '';
+        }
+        $attr_return = array();
+
+        foreach ($attributes as $key => $value) {
+            array_push($attr_return, "$key=\"$value\"");
+        }
+
+        return implode(' ', $attr_return);
+    }
+
+    function starts_with($haystack, $needle) {
+        // Adapted from
+        // http://stackoverflow.com/a/834355/133764
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    function ends_with($haystack, $needle) {
+        // Adapted from
+        // http://stackoverflow.com/a/834355/133764
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+
+        return (substr($haystack, -$length) === $needle);
+    }
 }
 
