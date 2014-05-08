@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS `items` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `original_index` (`original`),
   UNIQUE KEY `shortened_index` (`shortened`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16605 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
