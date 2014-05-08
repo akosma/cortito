@@ -87,7 +87,8 @@ function update_count($id, $count) {
 function generate_random_string($length = 6) {
     // Adapted from
     // http://stackoverflow.com/a/4356295/133764
-    $characters = 'abcdefghijklmnopqrstuvwxyz1234567890_';
+    $config = new Config;
+    $characters = $config->getRandomStringCharacters();
     $randomString = '';
     $len = mt_rand(1, $length);
     for ($i = 0; $i < $len; $i++) {

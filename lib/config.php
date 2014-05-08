@@ -25,54 +25,48 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-class Config
-{
+class Config {
     var $ini;
 
-    function __construct()
-    {
+    function __construct() {
         $this->ini = parse_ini_file("config/app.ini", true);
     }
 
-    function getServer()
-    {
+    function getServer() {
         return $this->ini["database"]["host"];
     }
 
-    function getDatabase()
-    {
+    function getDatabase() {
         return $this->ini["database"]["database"];
     }
 
-    function getUsername()
-    {
+    function getUsername() {
         return $this->ini["database"]["username"];
     }
 
-    function getPassword()
-    {
+    function getPassword() {
         return $this->ini["database"]["password"];
     }
 
-    function getBrandName()
-    {
+    function getBrandName() {
         return $this->ini["branding"]["name"];
     }
 
-    function getBrandUrl()
-    {
+    function getBrandUrl() {
         return $this->ini["branding"]["url"];
     }
 
-    function getMaxShortLength()
-    {
+    function getMaxShortLength() {
         return $this->ini["other"]["max_short_length"];
     }
 
-    function getExcludedUrlShorteners()
-    {
+    function getExcludedUrlShorteners() {
         $exclusions = $this->ini["other"]["excluded_url_shorteners"];
         return explode(',', $exclusions);
+    }
+
+    function getRandomStringCharacters() {
+        return $this->ini["other"]["random_string_caracters"];
     }
 }
 
