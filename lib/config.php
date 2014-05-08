@@ -29,7 +29,8 @@ class Config {
     var $ini;
 
     function __construct() {
-        $this->ini = parse_ini_file("config/app.ini", true);
+        $message = "This application requires an 'app.ini' file. Please copy the existing 'app.sample.ini' file and customize it.";
+        $this->ini = parse_ini_file("config/app.ini", true) or die($message);
     }
 
     function getServer() {
