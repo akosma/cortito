@@ -29,7 +29,7 @@ class Config
 {
     var $ini;
 
-    function Config()
+    function __construct()
     {
         $this->ini = parse_ini_file("config/app.ini", true);
     }
