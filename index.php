@@ -142,7 +142,7 @@ $redirect = function ($shortened) use ($app, $helper) {
     }
 };
 
-$shorten = function () use ($app, $render, $config, $render_with_url, $is_valid, $helper) {
+$shorten = function () use ($app, $render, $config, $render_with_url, $is_valid, $helper, $host) {
     $url = $app->request->params('url');
     if (isset($url)) {
         $max_length = $config->getMaxShortLength();
@@ -188,7 +188,7 @@ $shorten = function () use ($app, $render, $config, $render_with_url, $is_valid,
             $req = $app->request->headers()->get('ACCEPT');
             if ($req == 'application/javascript' || $req == 'text/xml') {
                 // API call
-                echo($short);
+                echo("$host/$short");
                 $app->stop();
             }
             else {
