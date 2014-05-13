@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Cortito : Cortito - URL Shortener written in Rails" />
+    <meta name="description" content="Cortito : Cortito - URL Shortener written in PHP" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -16,40 +16,51 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/akosma/cortito">Fork Me on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/akosma/cortito">View on GitHub</a>
 
           <h1 id="project_title">Cortito</h1>
-          <h2 id="project_tagline">Cortito - URL Shortener written in Rails</h2>
+          <h2 id="project_tagline">Cortito - URL Shortener written in PHP</h2>
 
-          <section id="downloads">
-            <a class="zip_download_link" href="https://github.com/akosma/cortito/zipball/master">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="https://github.com/akosma/cortito/tarball/master">Download this project as a tar.gz file</a>
-          </section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/akosma/cortito/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/akosma/cortito/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>Welcome</h1>
+        <h1>
+<a name="cortito" class="anchor" href="#cortito"><span class="octicon octicon-link"></span></a>Cortito</h1>
 
-<p>This project is the URL shortener Rails application running at
-<a href="http://akos.ma">http://akos.ma</a>. Feel free to use the code in your own
-server!</p>
+<p>This project is the URL shortener PHP application running at
+<a href="http://akos.ma">http://akos.ma</a>. Feel free to use the code in your own server!</p>
 
-<h2>License</h2>
+<p>This application used to be a Ruby on Rails application, but it has been
+translated to work with PHP, using the <a href="http://www.slimframework.com">Slim
+Framework</a>.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>The code is shipped with a BSD license. See the LICENSE.txt file for
 details.</p>
 
-<h2>Installation</h2>
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<p>As any other Rails application:</p>
+<p>This application requires PHP 5.5 or higher, and a MySQL database.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>As any other PHP application:</p>
 
 <ol>
-<li> Modify config/database.yml to your own settings;</li>
-<li> Run rake db:migrate to generate the tables;</li>
-<li> Start the application as you normally would.</li>
+<li> Create a MySQL database and execute <code>db/schema.sql</code> in it;</li>
+<li> Modify <code>config/app.ini</code> with your own settings;</li>
+<li> Navigate your browser to the application.</li>
 </ol>
       </section>
     </div>
